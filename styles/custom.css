@@ -1,0 +1,7 @@
+.apexcharts-tooltip {
+    flex-direction: row !important;
+}
+
+.apexcharts-tooltip-title {
+    background-color: #fff !important;
+}
