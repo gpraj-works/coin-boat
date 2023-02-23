@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Header from '@/home/Header';
+import { Header } from 'components';
 
 export default function Home() {
 	return (

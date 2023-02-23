@@ -6,13 +6,13 @@ import { useState } from 'react';
 const NavbarItems = ({ title, classProps, linkProps }) => {
 	const NavLinks = ['/', '/explore', '/learn', '/about', '/support'];
 	return (
-		<li className={`mx-4 cursor-pointer ${classProps}`}>
+		<li className={`mx-4 cursor-pointer hover:text-primary ${classProps}`}>
 			<Link href={`${NavLinks[linkProps]}`}>{title}</Link>
 		</li>
 	);
 };
 
-const Navbar = () => {
+const Navbar = ({ classProps }) => {
 	const [toggle, setToggle] = useState(false);
 	const { systemTheme, theme, setTheme } = useTheme();
 	const renderThemeChanger = () => {
@@ -20,7 +20,7 @@ const Navbar = () => {
 		if (currentTheme === 'dark') {
 			return (
 				<span
-					className='cursor-pointer bg-blue-500 text-white py-2 p-[12px] rounded-full'
+					className='cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 p-[12px] rounded-full'
 					onClick={() => setTheme('light')}
 				>
 					<em className='bi bi-sun'></em>
@@ -29,7 +29,7 @@ const Navbar = () => {
 		} else {
 			return (
 				<span
-					className='cursor-pointer bg-blue-500 text-white py-2 px-[12px] rounded-full'
+					className='cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-[12px] rounded-full'
 					onClick={() => setTheme('dark')}
 				>
 					<em className='bi bi-moon-stars'></em>
@@ -39,7 +39,9 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className='navbar flex items-center justify-between shadow-sm py-3 md:px-4 px-2 bg-white dark:bg-section-dark sticky top-0 z-30'>
+		<div
+			className={`navbar flex items-center justify-between shadow-sm py-3 md:px-4 px-2 bg-white dark:bg-slate-700 ${classProps}`}
+		>
 			<div className='logo'>
 				<Link href='#'>
 					<Image

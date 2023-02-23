@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 html,
 body {
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 html.light {
@@ -11,6 +11,10 @@ html.light {
 
 html.dark {
     background-color: #1A202C;
+}
+
+.heading{
+    font-family: 'Cookie', cursive;
 }
 
 @media (max-width: 575.98px) {
@@ -22,3 +26,37 @@ html.dark {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    body .scrollbar::-webkit-scrollbar {
+        width: 10px;
+        height: 20px;
+    }
+
+    body .scrollbar::-webkit-scrollbar-track {
+        border-radius: 100vh;
+        background: #F9FAFB;
+    }
+
+    body .scrollbar::-webkit-scrollbar-thumb {
+        background: #D1D5DB;
+        border-radius: 100vh;
+        border: none;
+    }
+
+    body .scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #9CA3AF;
+    }
+
+    .about-coin>p {
+        @apply text-lg text-slate-600 dark:text-slate-300;
+    }
+
+    .about-coin>a {
+        @apply text-blue-500;
+    }
+
+    .about-coin>h3 {
+        @apply text-2xl text-slate-900 dark:text-white my-3;
+    }
+}

@@ -1,27 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import localeString from 'components/components.utils';
-import { useState, useEffect } from 'react';
+import { ToCurrency } from 'components/components.utils';
+import ToSymbol from 'currency-symbol-map';
 import { Sparklines, SparklinesLine } from 'react-sparklines';
+import millify from 'millify';
 // 'https://api.frankfurter.app/latest?amount=10&from=USD&to=INR'
 
-const ConvertPrice = ({ amount, from, to }) => {
-	const [price, setPrice] = useState(null);
-	useEffect(() => {
-		fetch(
-			`https://api.frankfurter.app/latest?amount=${amount}&from=${from}&to=${to}`
-		)
-			.then((res) => res.json())
-			.then((data) => setPrice(data));
-	}, [amount, from, to]);
-
-	return price;
-};
-
-const ExploreTable = ({ coinsProps }) => {
+const Cryptos = ({ coinsProps, currencyType }) => {
 	return (
-		<div className='container'>
-			<div className='md:flex hidden px-3 dark:bg-gray-700 bg-white shadow-sm py-2'>
+		<div className='container-fluid my-1'>
+			<div className='md:flex hidden px-3 dark:bg-gray-700 bg-white shadow-sm py-2 sticky top-0 z-30'>
 				<div className='text-center w-[5%]'>
 					<h3>#</h3>
 				</div>
@@ -41,7 +29,7 @@ const ExploreTable = ({ coinsProps }) => {
 					<h3>Market cap</h3>
 				</div>
 				<div className='px-4'>
-					<h3>Trade & More</h3>
+					<h3>More details</h3>
 				</div>
 			</div>
 			{coinsProps.map((coin, index) => (
@@ -51,7 +39,7 @@ const ExploreTable = ({ coinsProps }) => {
 				>
 					<div className='wishlist text-center w-[5%] hidden md:block'>
 						<button className=''>
-							<em className='bi bi-heart'></em>
+							<em className='bi bi-star'></em>
 						</button>
 					</div>
 					<div className='coin justify-start flex items-center md:w-[30%] w-[45%]'>
@@ -62,7 +50,7 @@ const ExploreTable = ({ coinsProps }) => {
 						</div>
 					</div>
 					<div className='price md:w-[10%] w-[30%]'>
-						<p>${new Intl.NumberFormat().format(coin.price)}</p>
+						<ToCurrency price={coin.price} type={currencyType} />
 					</div>
 					<div className='chart w-[10%] mx-6 hidden md:block'>
 						<Sparklines data={coin.sparkline} width={30} height={10}>
@@ -83,12 +71,9 @@ const ExploreTable = ({ coinsProps }) => {
 						)}
 					</div>
 					<div className='market-cap w-[15%] hidden lg:block'>
-						<p>${localeString(coin.marketCap)}</p>
+						{ToSymbol(currencyType) + millify(coin.marketCap)}
 					</div>
 					<div className='buttons w-[10%] px-4 flex'>
-						<Link href='#' className='px-3 text-blue-500 hidden md:block'>
-							<em className='bi bi-activity text-2xl'></em>
-						</Link>
 						<Link
 							href={`/explore/${coin.uuid}`}
 							target='_blank'
@@ -103,4 +88,4 @@ const ExploreTable = ({ coinsProps }) => {
 	);
 };
 
-export default ExploreTable;
+export default Cryptos;

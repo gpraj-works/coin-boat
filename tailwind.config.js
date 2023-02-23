@@ -9,13 +9,9 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				section: {
-					dark: 'rgb(74,85,104)',
-					light: 'rgb(247, 250, 252)',
-				},
-				primaryHover: '#3182CE',
-				success: '#48BB78',
-				danger: '#E53E3E',
+				primary: '#3F83F8',
+				success: '#0E9F6E',
+				danger: '#E02424',
 			},
 		},
 	},

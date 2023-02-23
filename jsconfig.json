@@ -2,12 +2,9 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"@/home/*": ["components/home/*"],
+			"@/components/*": ["components/*"],
+			"@/explore/*": ["components/explore/*"],
 			"@/dashboard/*": ["components/dashboard/*"],
-			"@/home.components/*": ["components/home/home.components/*"],
-			"@/dashboard.components/*": [
-				"components/dashboard/dashboard.components/*"
-			]
 		}
 	}
 }

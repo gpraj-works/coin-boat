@@ -1,4 +1,4 @@
-import { Navbar } from '@/home.components/home.components';
+import { Navbar } from '@/components/index';
 import Image from 'next/image';
 import Link from 'next/link';
 

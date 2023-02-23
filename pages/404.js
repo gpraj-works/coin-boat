@@ -1,4 +1,4 @@
-import { Navbar } from '@/home/home.components/home.components';
+import { Navbar } from '@/components/index';
 
 const ErrorPage = () => {
 	return (
