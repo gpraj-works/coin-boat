@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import CryptoJS from 'crypto-js';
 
 const localeString = (value) => {
 	return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -10,6 +11,24 @@ const ToCurrency = ({ price, type, lang, digits }) => {
 		currency: type,
 		minimumFractionDigits: digits ? digits : 2,
 	}).format(price);
+};
+
+const MakeChips = (potato) => {
+	return CryptoJS.AES.encrypt(potato, process.env.SALT_FOR_CHIPS).toString();
+};
+
+const RequestOtp = () => {
+	var digits = '0123456789';
+	let OTP = '';
+	for (let i = 0; i < 6; i++) {
+		OTP += digits[Math.floor(Math.random() * 10)];
+	}
+	return OTP;
+};
+
+const EatChips = (chips) => {
+	let pepper = CryptoJS.AES.decrypt(chips, process.env.SALT_FOR_CHIPS);
+	return pepper.toString(CryptoJS.enc.Utf8);
 };
 
 const FindLink = ({ links }) => {
@@ -57,7 +76,7 @@ const FindLink = ({ links }) => {
 					item.type === 'whitepaper' ? (
 						<Link
 							href={item.url}
-							className='m-2 flex bg-slate-100 py-2 px-4 rounded-full capitalize'
+							className='m-2 flex bg-slate-100 dark:bg-primary py-2 px-4 rounded-full capitalize'
 							target='_blank'
 							key={index}
 						>
@@ -67,7 +86,7 @@ const FindLink = ({ links }) => {
 					) : (
 						<Link
 							href={item.url}
-							className='m-2 flex bg-slate-100 py-2 px-4 rounded-full capitalize'
+							className='m-2 flex bg-slate-100 dark:bg-primary py-2 px-4 rounded-full capitalize'
 							target='_blank'
 							key={index}
 						>
@@ -82,7 +101,7 @@ const FindLink = ({ links }) => {
 				{communityLinks.map((item, index) => (
 					<Link
 						href={item[0].url}
-						className='m-2 flex items-center bg-slate-100 py-2 px-4 rounded-full capitalize'
+						className='m-2 flex items-center bg-slate-100 dark:bg-primary py-2 px-4 rounded-full capitalize'
 						target='_blank'
 						key={index}
 					>
@@ -95,4 +114,4 @@ const FindLink = ({ links }) => {
 	);
 };
 
-export { localeString, ToCurrency, FindLink };
+export { localeString, ToCurrency, FindLink, MakeChips, EatChips, RequestOtp };

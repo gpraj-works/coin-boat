@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import {
 	useGetRefCurrencyQuery,
 	useGetRefAssetQuery,
+	useGetCryptoStatsQuery,
 } from 'services/crypto.api';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { updateCurrency } from 'services/crypto.utils';
+import PriceCalculator from '../PriceCalculator';
 
 const CoinSidebar = ({ about, defaultCurrency }) => {
 	const dispatch = useDispatch();
@@ -20,32 +22,35 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 		useGetRefAssetQuery(refAsset);
 	const [modal, setModal] = useState(false);
 
-	console.log(about);
+	const { data: cryptoStats, isFetching: cryptoStatsFetching } =
+		useGetCryptoStatsQuery(defaultCurrency.id);
+
+	const newestCoins = cryptoStats?.data?.newestCoins;
 
 	return (
 		<>
 			<div className='flex'>
 				<button
-					className='bg-white hover:bg-primary hover:text-white shadow-md rounded-full mx-2 px-4 py-1.5 uppercase'
+					className='bg-white hover:bg-primary dark:bg-primary hover:text-white shadow-md rounded-full mx-2 px-4 py-1.5 uppercase'
 					onClick={() => setModal('currency')}
 				>
 					{defaultCurrency.symbol}
 					<em className='bi bi-chevron-down ml-1'></em>
 				</button>
 				<button
-					className='bg-white hover:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'
+					className='bg-white hover:bg-primary dark:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'
 					onClick={() => setModal('asset')}
 				>
 					<em className='bi bi-search'></em>
 				</button>
-				<button className='bg-white hover:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'>
+				<button className='bg-white hover:bg-primary dark:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'>
 					<em className='bi bi-star'></em>
 				</button>
-				<button className='bg-white hover:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'>
+				<button className='bg-white hover:bg-primary dark:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'>
 					<em className='bi bi-share'></em>
 				</button>
 			</div>
-			<hr className='mt-5 mb-4' />
+			<hr className='mt-5 mb-2' />
 			<div className='px-2'>
 				<Link href='#' className='inline-flex items-center m-2.5 text-md'>
 					<em className='bi bi-box-arrow-up-right mr-3'></em>
@@ -62,10 +67,58 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 					</span>
 				</Link>
 			</div>
-			<hr className='mt-5 mb-4' />
-			<button className='bg-primary hover:bg-blue-600 rounded-full mx-4 px-6 py-2 text-white'>
-				Price Calculator
-			</button>
+			<hr className='my-2' />
+			<div className='mb-3'>
+				<h3 className='text-2xl my-4 ml-1 heading uppercase'>Newest coins</h3>
+				{!cryptoStatsFetching &&
+					newestCoins.map((item, index) => (
+						<Link
+							href={item.coinrankingUrl}
+							key={index}
+							className='flex items-center m-3'
+						>
+							<img src={item.iconUrl} alt={item.name} className='w-[8%]' />
+							&nbsp;&nbsp; {item.name} &nbsp;&nbsp;
+							<span className='font-bold'>{item.symbol}</span>
+						</Link>
+					))}
+			</div>
+			<div className='px-1 flex flex-col items-start'>
+				<PriceCalculator
+					currencySymbol={defaultCurrency.symbol}
+					coinSymbol={about.symbol}
+				/>
+			</div>
+			<hr className='my-4' />
+
+			<div className='mb-6'>
+				<h3 className='text-2xl mt-4 mb-3 ml-1 heading uppercase'>
+					Quick links
+				</h3>
+				<div className='px-2 flex flex-col'>
+					<Link
+						href='#'
+						className='inline-flex items-center mx-2.5 my-1.5 text-md'
+					>
+						<em className='bi bi-box-arrow-up-left mr-3'></em>
+						Go to Home
+					</Link>
+					<Link
+						href='#'
+						className='inline-flex items-center mx-2.5 my-1.5 text-md'
+					>
+						<em className='bi bi-box-arrow-up-left mr-3'></em>
+						Explore Coins
+					</Link>
+					<Link
+						href='#'
+						className='inline-flex items-center mx-2.5 my-1.5 text-md'
+					>
+						<em className='bi bi-box-arrow-up-left mr-3'></em>
+						Support Center
+					</Link>
+				</div>
+			</div>
 			{modal && (
 				<div className='fixed bg-black bg-opacity-20 w-screen h-screen z-20 top-0 right-0 flex justify-end'>
 					<div className='bg-white h-screen w-96 px-6 py-6 relative'>

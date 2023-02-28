@@ -45,7 +45,7 @@ const Navbar = ({ classProps }) => {
 			<div className='logo'>
 				<Link href='#'>
 					<Image
-						src='/coinboat.png'
+						src='/images/brand/coinboat.png'
 						width={40}
 						height={40}
 						alt='CoinBoat | Logo'
@@ -53,7 +53,7 @@ const Navbar = ({ classProps }) => {
 						priority
 					/>
 					<Image
-						src='/logo.png'
+						src='/images/brand/logo.png'
 						width={150}
 						height={150}
 						alt='CoinBoat | Logo'
@@ -88,13 +88,13 @@ const Navbar = ({ classProps }) => {
 				</div>
 				<div className='md:flex hidden'>
 					<Link
-						href='/login'
+						href='/account/login'
 						className='px-6 py-2 mx-3 hover:bg-blue-700 bg-blue-500 rounded-full text-white'
 					>
 						LogIn
 					</Link>
 					<Link
-						href='/login'
+						href='/account/register'
 						className='px-6 py-2 hover:bg-blue-700 bg-blue-500 rounded-full text-white'
 					>
 						Get start
@@ -122,13 +122,13 @@ const Navbar = ({ classProps }) => {
 					</ul>
 					<div className='mt-20'>
 						<Link
-							href='/login'
+							href='/account/login'
 							className='px-6 py-2 mx-3 hover:bg-blue-700 bg-blue-500 rounded-full text-white'
 						>
 							LogIn
 						</Link>
 						<Link
-							href='/login'
+							href='/account/register'
 							className='px-6 py-2 hover:bg-blue-700 bg-blue-500 rounded-full text-white'
 						>
 							Get start

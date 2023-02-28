@@ -5,6 +5,7 @@
 			"@/components/*": ["components/*"],
 			"@/explore/*": ["components/explore/*"],
 			"@/dashboard/*": ["components/dashboard/*"],
+			"@/config/*": ["config/*"]
 		}
 	}
 }

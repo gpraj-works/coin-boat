@@ -11,9 +11,11 @@ export const cryptoApi = createApi({
 	baseQuery: fetchBaseQuery({ baseUrl: process.env.CRYPTO_API_BASE }),
 	endpoints: (builder) => ({
 		getCryptos: builder.query({
-			query: ({ offset, currency }) =>
+			query: ({ offset, currency, tag }) =>
 				createRequest(
-					`/coins?referenceCurrencyUuid=${currency}&limit=50&offset=${offset}`
+					`/coins?referenceCurrencyUuid=${currency}&limit=50&offset=${offset}${
+						tag && '&tags[]=' + tag
+					}`
 				),
 		}),
 		getCryptoById: builder.query({

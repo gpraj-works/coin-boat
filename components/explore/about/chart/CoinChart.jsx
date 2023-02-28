@@ -8,6 +8,8 @@ import { ToCurrency } from '@/components/components.utils';
 const CoinChart = ({ uuid }) => {
 	const coinId = uuid;
 
+	const theme = localStorage.getItem('theme');
+
 	const defaultCurrency = useSelector(
 		(state) => state.currencyType.defaultCurrency
 	);
@@ -81,7 +83,7 @@ const CoinChart = ({ uuid }) => {
 			// intersect: true,
 		},
 		fill: {
-			colors: ['#E1EFFE'],
+			colors: theme === 'dark' ? ['#233876'] : ['#E1EFFE'],
 			type: 'pattern',
 			pattern: {
 				style: 'squares',
@@ -118,7 +120,7 @@ const CoinChart = ({ uuid }) => {
 		}
 		return (
 			<button
-				className={`${classProps} border px-3 py-0.5 mx-1 rounded-lg outline-none uppercase`}
+				className={`${classProps} border px-3 dark:border-primary py-0.5 mx-1 rounded-lg outline-none uppercase`}
 				onClick={() => setTimePeriod(time)}
 			>
 				{title}

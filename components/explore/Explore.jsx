@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
-import Cryptos from './categories/Cryptos';
+import { Cryptos, Exchange } from '@/components/index';
 import {
 	useGetCryptosQuery,
 	useGetRefCurrencyQuery,
@@ -32,9 +32,15 @@ const ExploreTable = () => {
 
 	const [page, setPage] = useState(1);
 	let offset = page * 50 - 50;
+
+	const [openTab, setOpenTab] = useState('cryptocurrency');
+
+	let tag = openTab === 'cryptocurrency' ? '' : openTab;
+
 	const { data: cryptosList, isFetching: cryptoFetching } = useGetCryptosQuery({
 		offset,
 		currency,
+		tag,
 	});
 
 	const [refCurrency, setRefCurrency] = useState(defaultCurrency.symbol);
@@ -48,7 +54,6 @@ const ExploreTable = () => {
 
 	const [modal, setModal] = useState(false);
 
-	const [openTab, setOpenTab] = useState('cryptocurrency');
 	const tabs = [
 		{
 			name: 'watchlist',
@@ -71,31 +76,108 @@ const ExploreTable = () => {
 		},
 		{
 			name: 'defi',
-			content: 'defi',
+			content: cryptoFetching ? (
+				<>
+					<TableHolder />
+					<TableHolder />
+					<TableHolder />
+				</>
+			) : (
+				<Cryptos
+					coinsProps={cryptosList?.data?.coins}
+					currencyType={defaultCurrency.symbol}
+				/>
+			),
 		},
 		{
 			name: 'dex',
-			content: 'dex',
+			content: cryptoFetching ? (
+				<>
+					<TableHolder />
+					<TableHolder />
+					<TableHolder />
+				</>
+			) : (
+				<Cryptos
+					coinsProps={cryptosList?.data?.coins}
+					currencyType={defaultCurrency.symbol}
+				/>
+			),
 		},
-		{
-			name: 'exchange',
-			content: 'exchange',
-		},
+		// {
+		// 	name: 'exchange',
+		// 	content: cryptoFetching ? (
+		// 		<>
+		// 			<TableHolder />
+		// 			<TableHolder />
+		// 			<TableHolder />
+		// 		</>
+		// 	) : (
+		// 		<Exchange
+		// 			coinsProps={cryptosList?.data?.coins}
+		// 			currencyType={defaultCurrency.symbol}
+		// 		/>
+		// 	),
+		// },
 		{
 			name: 'metaverse',
-			content: 'metaverse',
+			content: cryptoFetching ? (
+				<>
+					<TableHolder />
+					<TableHolder />
+					<TableHolder />
+				</>
+			) : (
+				<Cryptos
+					coinsProps={cryptosList?.data?.coins}
+					currencyType={defaultCurrency.symbol}
+				/>
+			),
 		},
 		{
 			name: 'nft',
-			content: 'nft',
+			content: cryptoFetching ? (
+				<>
+					<TableHolder />
+					<TableHolder />
+					<TableHolder />
+				</>
+			) : (
+				<Cryptos
+					coinsProps={cryptosList?.data?.coins}
+					currencyType={defaultCurrency.symbol}
+				/>
+			),
 		},
 		{
-			name: 'stacking',
-			content: 'stacking',
+			name: 'staking',
+			content: cryptoFetching ? (
+				<>
+					<TableHolder />
+					<TableHolder />
+					<TableHolder />
+				</>
+			) : (
+				<Cryptos
+					coinsProps={cryptosList?.data?.coins}
+					currencyType={defaultCurrency.symbol}
+				/>
+			),
 		},
 		{
 			name: 'stablecoin',
-			content: 'stablecoin',
+			content: cryptoFetching ? (
+				<>
+					<TableHolder />
+					<TableHolder />
+					<TableHolder />
+				</>
+			) : (
+				<Cryptos
+					coinsProps={cryptosList?.data?.coins}
+					currencyType={defaultCurrency.symbol}
+				/>
+			),
 		},
 	];
 

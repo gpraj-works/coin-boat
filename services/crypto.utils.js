@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { loadState, saveState } from 'providers/storage';
-const persistedState = loadState();
+const persistedState = loadState('crypto');
 
 const cryptoSlice = createSlice({
 	name: 'cryptoUtils',
@@ -12,7 +12,7 @@ const cryptoSlice = createSlice({
 	reducers: {
 		updateCurrency: (state, action) => {
 			state.defaultCurrency = action.payload;
-			saveState(action.payload);
+			saveState({ name: 'crypto', value: action.payload });
 		},
 	},
 });
