@@ -1,6 +1,6 @@
 import { EatChips } from '@/components/components.utils';
 import dbConnect from '@/config/dbConnect';
-import jwt from 'jsonwebtoken';
+// import { getToken } from 'next-auth/jwt';
 
 const login = async (req, res) => {
 	const { method } = req;
@@ -8,6 +8,7 @@ const login = async (req, res) => {
 	const db = client.db('users');
 	const collection = db.collection('accounts');
 	const query = req.body;
+	const secret = process.env.SALT_FOR_CHIPS;
 
 	if (method === 'POST') {
 		try {
@@ -24,19 +25,15 @@ const login = async (req, res) => {
 						message: 'Account not verified',
 					});
 				} else {
-					const user = await collection.find().toArray();
-					const token = jwt.sign(
-						{ userId: user[0]._id },
-						process.env.SALT_FOR_CHIPS,
-						{
-							expiresIn: '1h',
-						}
-					);
-					res.status(200).json({ success: true, data: token });
+					try {
+						res.status(200).json({ success: true, data: exist });
+					} catch (error) {
+						res.status(401).json({ success: false, data: error });
+					}
 				}
 			}
 		} catch (error) {
-			res.status(400).json({ success: false });
+			res.status(400).json({ success: false, message: error });
 		}
 	}
 };

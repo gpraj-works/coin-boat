@@ -1,39 +1,11 @@
 import React from 'react';
-import jwt from 'jsonwebtoken';
 import Head from 'next/head';
 
-export async function getServerSideProps(context) {
-	const { req } = context;
-	const { token } = req.cookies || {};
-
-	if (!token) {
-		return {
-			redirect: {
-				destination: '/account/login',
-				permanent: false,
-			},
-		};
-	}
-
-	try {
-		const status = jwt.verify(token, process.env.SALT_FOR_CHIPS);
-		return {
-			props: {
-				userId: status,
-			},
-		};
-	} catch (error) {
-		return {
-			redirect: {
-				destination: '/account/login',
-				permanent: false,
-			},
-		};
-	}
-}
-
-const Dashboard = ({ userId }) => {
-	console.log(new Date(userId.exp * 1000));
+const Dashboard = () => {
+	// let loginExpiry = new Date(userId.exp * 1000).getMinutes();
+	// if (loginExpiry === 1) {
+	// 	Cookies.remove('token');
+	// }
 	return (
 		<>
 			<Head>

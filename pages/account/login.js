@@ -4,39 +4,6 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { MakeChips } from '@/components/components.utils';
 import { useRouter } from 'next/router';
-import jwt from 'jsonwebtoken';
-import Cookies from 'js-cookie';
-
-export async function getServerSideProps(context) {
-	const { req } = context;
-	const { token } = req.cookies || {};
-
-	if (!token) {
-		return {
-			redirect: {
-				destination: '/account/login',
-				permanent: false,
-			},
-		};
-	}
-
-	try {
-		const status = jwt.verify(token, process.env.SALT_FOR_CHIPS);
-		return {
-			redirect: {
-				destination: '/dashboard',
-				permanent: false,
-			},
-		};
-	} catch (error) {
-		return {
-			redirect: {
-				destination: '/account/login',
-				permanent: false,
-			},
-		};
-	}
-}
 
 const Login = () => {
 	const router = useRouter();
@@ -79,8 +46,9 @@ const Login = () => {
 		}
 
 		if (response.status === 200) {
-			Cookies.set('token', result.data, { expires: 1 });
-			router.push('/dashboard/');
+			// Cookies.set('token', result.data, { expires: 1 });
+			// router.push('/dashboard/');
+			console.log(result);
 		}
 	};
 
