@@ -14,6 +14,7 @@ const nextConfig = {
 		MAILER_HOST: process.env.MAILER_HOST,
 		MAILER_PORT: process.env.MAILER_PORT,
 		SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+		BASE_URL: process.env.BASE_URL,
 	},
 };
 

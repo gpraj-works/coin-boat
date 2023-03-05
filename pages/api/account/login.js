@@ -1,6 +1,6 @@
 import { EatChips } from '@/components/components.utils';
 import dbConnect from '@/config/dbConnect';
-// import { getToken } from 'next-auth/jwt';
+const jwt = require('jsonwebtoken');
 
 const login = async (req, res) => {
 	const { method } = req;
@@ -26,7 +26,14 @@ const login = async (req, res) => {
 					});
 				} else {
 					try {
-						res.status(200).json({ success: true, data: exist });
+						const token = jwt.sign(
+							{
+								user: exist,
+							},
+							secret,
+							{ expiresIn: 60 * 10 }
+						);
+						res.status(200).json({ success: true, data: token });
 					} catch (error) {
 						res.status(401).json({ success: false, data: error });
 					}

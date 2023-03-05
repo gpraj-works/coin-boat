@@ -4,9 +4,13 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { MakeChips } from '@/components/components.utils';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { updateAccess } from '@/services/auth.utils';
 
 const Login = () => {
 	const router = useRouter();
+	const dispatch = useDispatch();
 	const [typing, setTyping] = useState(false);
 	const [eye, setEye] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -46,9 +50,9 @@ const Login = () => {
 		}
 
 		if (response.status === 200) {
-			// Cookies.set('token', result.data, { expires: 1 });
-			// router.push('/dashboard/');
-			console.log(result);
+			Cookies.set('token', result.data, { expires: 1 });
+			dispatch(updateAccess(true));
+			router.push('/dashboard/');
 		}
 	};
 

@@ -30,10 +30,7 @@ const CoinOverview = ({ about, defaultCurrency }) => {
 			<CoinChart price={about.price} uuid={about.uuid} />
 			<div className='p-2 rounded-lg dark:bg-slate-700' id='overview'>
 				<h3 className='text-2xl my-3 heading'>About</h3>
-				<div
-					dangerouslySetInnerHTML={{ __html: about.description }}
-					className='about-coin text-justify'
-				/>
+				<p className='text-xl text-slate-700'>{about.description}</p>
 				<hr className='my-6' />
 				<h3 className='text-2xl mt-3 mb-1'>Market Stats</h3>
 				<div className='flex flex-wrap md:flex-row flex-col justify-between m-5'>

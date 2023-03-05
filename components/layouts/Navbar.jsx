@@ -1,7 +1,9 @@
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const NavbarItems = ({ title, classProps, linkProps }) => {
 	const NavLinks = ['/', '/explore', '/learn', '/about', '/support'];
@@ -12,7 +14,59 @@ const NavbarItems = ({ title, classProps, linkProps }) => {
 	);
 };
 
+const AuthButtons = () => {
+	return (
+		<>
+			<Link
+				href='/account/login'
+				className='px-6 py-2 mx-3 hover:bg-blue-700 bg-blue-500 rounded-full text-white'
+			>
+				LogIn
+			</Link>
+			<Link
+				href='/account/register'
+				className='px-6 py-2 hover:bg-blue-700 bg-blue-500 rounded-full text-white'
+			>
+				Get start
+			</Link>
+		</>
+	);
+};
+
+const AccountButtons = () => {
+	return (
+		<>
+			<Link
+				href='/dashboard/'
+				className='bg-blue-500 hover:bg-blue-600 text-white py-2 ml-2 px-[12px] rounded-full mr-2'
+			>
+				<em className='bi bi-person-circle'></em>
+			</Link>
+			<Link
+				href={{
+					pathname: '/account/logout',
+					query: { to: '/explore' },
+				}}
+				className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-[12px] rounded-full'
+			>
+				<em className='bi bi-power'></em>
+			</Link>
+		</>
+	);
+};
+
 const Navbar = ({ classProps }) => {
+	let access = useSelector((state) => state.authUtils.loggedIn);
+	const [loggedIn, setLoggedIn] = useState(false);
+
+	useEffect(() => {
+		if (access) {
+			setLoggedIn(true);
+		} else {
+			setLoggedIn(false);
+		}
+	}, [access]);
+
 	const [toggle, setToggle] = useState(false);
 	const { systemTheme, theme, setTheme } = useTheme();
 	const renderThemeChanger = () => {
@@ -86,20 +140,8 @@ const Navbar = ({ classProps }) => {
 						<em className='bi bi-activity'></em>
 					</span>
 				</div>
-				<div className='md:flex hidden'>
-					<Link
-						href='/account/login'
-						className='px-6 py-2 mx-3 hover:bg-blue-700 bg-blue-500 rounded-full text-white'
-					>
-						LogIn
-					</Link>
-					<Link
-						href='/account/register'
-						className='px-6 py-2 hover:bg-blue-700 bg-blue-500 rounded-full text-white'
-					>
-						Get start
-					</Link>
-				</div>
+				{loggedIn && <AccountButtons />}
+				{!loggedIn && <AuthButtons />}
 			</div>
 			{toggle && (
 				<div className='fixed z-10 flex-col bg-section-light flex items-center py-8 text-blue-600 top-0 left-0 right-0 bottom-0'>

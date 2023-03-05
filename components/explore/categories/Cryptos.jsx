@@ -4,6 +4,7 @@ import { ToCurrency } from 'components/components.utils';
 import ToSymbol from 'currency-symbol-map';
 import { Sparklines, SparklinesLine } from 'react-sparklines';
 import millify from 'millify';
+import useSWR from 'swr';
 // 'https://api.frankfurter.app/latest?amount=10&from=USD&to=INR'
 
 const Cryptos = ({ coinsProps, currencyType }) => {

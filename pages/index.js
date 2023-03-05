@@ -1,5 +1,8 @@
+import moment from 'moment';
 import Head from 'next/head';
-import { Header } from 'components';
+import { useEffect, useState } from 'react';
+// import { Header } from 'components';
+import { Header } from '../components';
 
 export default function Home() {
 	return (

@@ -78,8 +78,7 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 							className='flex items-center m-3'
 						>
 							<img src={item.iconUrl} alt={item.name} className='w-[8%]' />
-							&nbsp;&nbsp; {item.name} &nbsp;&nbsp;
-							<span className='font-bold'>{item.symbol}</span>
+							&nbsp;{item.name}
 						</Link>
 					))}
 			</div>
