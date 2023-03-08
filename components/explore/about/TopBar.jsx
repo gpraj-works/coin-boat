@@ -1,32 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { ToCurrency } from '@/components/components.utils';
-import useSWR from 'swr';
-
-const GetPrice = (uuid) => {
-	const url = `${process.env.CRYPTO_API_BASE}/coin/${uuid}/price?`;
-	const fetcher = async (url) => {
-		const options = {
-			headers: {
-				'X-RapidAPI-Key': process.env.CRYPTO_API_KEY,
-				'X-RapidAPI-Host': process.env.CRYPTO_API_HOST,
-			},
-		};
-		return await fetch(url, options).then((res) => res.json());
-	};
-
-	const { data, isLoading } = useSWR(url, fetcher, {
-		refreshInterval: 1000,
-	});
-	if (!isLoading) {
-		return data?.data?.price;
-	}
-};
 
 const TopBar = ({ explore, defaultCurrency }) => {
 	const change = explore.change;
-
-	const price = GetPrice(explore.uuid);
+	const price = explore.price;
 
 	return (
 		<>

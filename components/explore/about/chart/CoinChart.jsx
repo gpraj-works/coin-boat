@@ -56,9 +56,9 @@ const CoinChart = ({ uuid }) => {
 			enabled: false,
 		},
 		markers: {
-			size: [0.2, 7],
-			style: 'hollow',
-			colors: ['#1C64F2'],
+			// size: [0.2, 7],
+			// style: 'hollow',
+			// colors: ['#1C64F2'],
 			// onClick: function (e) {
 			// 	return console.log('vlaue');
 			// },
@@ -140,13 +140,13 @@ const CoinChart = ({ uuid }) => {
 					) : (
 						<span>{cryptoChange}</span>
 					)} */}
-					{trackingPrice && (
+					{trackingPrice &&
 						<ToCurrency
 							price={trackingPrice}
 							type={defaultCurrency.symbol}
 							digits={3}
 						/>
-					)}
+					}
 				</p>
 				<div>
 					<FilterChart title='1h' time='1h' />

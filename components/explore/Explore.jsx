@@ -1,14 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from 'react';
-import { Cryptos, Exchange } from '@/components/index';
-import {
-	useGetCryptosQuery,
-	useGetRefCurrencyQuery,
-	useGetRefAssetQuery,
-} from 'services/crypto.api';
+import React, { useState, useEffect } from 'react';
+import { Table, Watchlist } from '@/components/index';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCurrency } from 'services/crypto.utils';
+import { toast } from 'react-toastify';
+import { GetCrypto } from '@/services/api.crypto';
 
 const TableHolder = () => {
 	return (
@@ -22,199 +19,101 @@ const TableHolder = () => {
 };
 
 const ExploreTable = () => {
+	const Crypto = new GetCrypto();
+
+	//Check-logIn-Info
+	let access = useSelector((state) => state.authUtils.loggedIn);
+	const [loggedIn, setLoggedIn] = useState(false);
+	useEffect(() => {
+		if (access) {
+			setLoggedIn(true);
+		} else {
+			setLoggedIn(false);
+		}
+	}, [access]);
+
+	//Handling-Redux-State
+	const dispatch = useDispatch();
 	const defaultCurrency = useSelector(
 		(state) => state.currencyType.defaultCurrency
 	);
 
-	const dispatch = useDispatch();
-
+	//Fetching-Crypto-Currencies
+	const [watchlist, setWatchlist] = useState(false);
 	const [currency, setCurrency] = useState(defaultCurrency.id);
-
 	const [page, setPage] = useState(1);
 	let offset = page * 50 - 50;
-
 	const [openTab, setOpenTab] = useState('cryptocurrency');
-
 	let tag = openTab === 'cryptocurrency' ? '' : openTab;
 
-	const { data: cryptosList, isFetching: cryptoFetching } = useGetCryptosQuery({
+	const { data: cryptosList, isLoading: cryptoFetching } = Crypto.All({
+		refCurrency: currency,
 		offset,
-		currency,
 		tag,
 	});
 
+	//Search-Reference-Currencies
 	const [refCurrency, setRefCurrency] = useState(defaultCurrency.symbol);
+	const { data: refCurrencies, isLoading: refCurrencyFetching } =
+		Crypto.RefCurrencies({ refCurrency });
 
-	const { data: refCurrencies, isFetching: refCurrencyFetching } =
-		useGetRefCurrencyQuery(refCurrency);
-
+	//Search-Crypto-Currencies
 	const [refAsset, setRefAsset] = useState('bitcoin');
-	const { data: refAssets, isFetching: refAssetsFetching } =
-		useGetRefAssetQuery(refAsset);
+	const { data: refAssets, isLoading: refAssetsFetching } = Crypto.RefAssets({
+		refAsset,
+	});
 
+	//Handling-Searching-Modal
 	const [modal, setModal] = useState(false);
 
-	const tabs = [
-		{
-			name: 'watchlist',
-			content: 'watchlist',
-		},
-		{
-			name: 'cryptocurrency',
-			content: cryptoFetching ? (
-				<>
-					<TableHolder />
-					<TableHolder />
-					<TableHolder />
-				</>
-			) : (
-				<Cryptos
-					coinsProps={cryptosList?.data?.coins}
-					currencyType={defaultCurrency.symbol}
-				/>
-			),
-		},
-		{
-			name: 'defi',
-			content: cryptoFetching ? (
-				<>
-					<TableHolder />
-					<TableHolder />
-					<TableHolder />
-				</>
-			) : (
-				<Cryptos
-					coinsProps={cryptosList?.data?.coins}
-					currencyType={defaultCurrency.symbol}
-				/>
-			),
-		},
-		{
-			name: 'dex',
-			content: cryptoFetching ? (
-				<>
-					<TableHolder />
-					<TableHolder />
-					<TableHolder />
-				</>
-			) : (
-				<Cryptos
-					coinsProps={cryptosList?.data?.coins}
-					currencyType={defaultCurrency.symbol}
-				/>
-			),
-		},
-		// {
-		// 	name: 'exchange',
-		// 	content: cryptoFetching ? (
-		// 		<>
-		// 			<TableHolder />
-		// 			<TableHolder />
-		// 			<TableHolder />
-		// 		</>
-		// 	) : (
-		// 		<Exchange
-		// 			coinsProps={cryptosList?.data?.coins}
-		// 			currencyType={defaultCurrency.symbol}
-		// 		/>
-		// 	),
-		// },
-		{
-			name: 'metaverse',
-			content: cryptoFetching ? (
-				<>
-					<TableHolder />
-					<TableHolder />
-					<TableHolder />
-				</>
-			) : (
-				<Cryptos
-					coinsProps={cryptosList?.data?.coins}
-					currencyType={defaultCurrency.symbol}
-				/>
-			),
-		},
-		{
-			name: 'nft',
-			content: cryptoFetching ? (
-				<>
-					<TableHolder />
-					<TableHolder />
-					<TableHolder />
-				</>
-			) : (
-				<Cryptos
-					coinsProps={cryptosList?.data?.coins}
-					currencyType={defaultCurrency.symbol}
-				/>
-			),
-		},
-		{
-			name: 'staking',
-			content: cryptoFetching ? (
-				<>
-					<TableHolder />
-					<TableHolder />
-					<TableHolder />
-				</>
-			) : (
-				<Cryptos
-					coinsProps={cryptosList?.data?.coins}
-					currencyType={defaultCurrency.symbol}
-				/>
-			),
-		},
-		{
-			name: 'stablecoin',
-			content: cryptoFetching ? (
-				<>
-					<TableHolder />
-					<TableHolder />
-					<TableHolder />
-				</>
-			) : (
-				<Cryptos
-					coinsProps={cryptosList?.data?.coins}
-					currencyType={defaultCurrency.symbol}
-				/>
-			),
-		},
-	];
+	//Fetching-Watchlist
+
+	const TabButtons = ({ title, icon }) => {
+		return (
+			<button
+				onClick={() => {
+					if (title === 'watchlist') {
+						!loggedIn && toast.warning('Login is required!');
+						loggedIn && setOpenTab(title);
+					} else {
+						setOpenTab(title);
+					}
+				}}
+				className={`${
+					openTab === title
+						? 'bg-primary text-white'
+						: 'bg-white hover:bg-primary hover:text-white dark:bg-slate-600'
+				} shadow-md rounded-full mx-2 px-4 py-1.5 capitalize`}
+			>
+				{icon && <em className={`bi bi-${icon && icon} mr-1.5`}></em>}
+				{title}
+			</button>
+		);
+	};
 
 	return (
 		<>
 			<div className='my-5 mx-3 flex justify-between'>
 				<div>
-					{tabs.map((tab, index) => (
-						<button
-							key={tab.name}
-							onClick={() => setOpenTab(tab.name)}
-							className={`${
-								tab.name === openTab
-									? 'bg-primary text-white'
-									: 'bg-white hover:bg-primary hover:text-white'
-							} shadow-md rounded-full mx-2 px-4 py-1.5 capitalize`}
-						>
-							{tab.name === 'watchlist' ? (
-								<>
-									<em className='bi bi-star mr-2'></em>
-									{tab.name}
-								</>
-							) : (
-								tab.name
-							)}
-						</button>
-					))}
+					<TabButtons title='watchlist' icon='star' />
+					<TabButtons title='cryptocurrency' />
+					<TabButtons title='defi' />
+					<TabButtons title='dex' />
+					<TabButtons title='exchange' />
+					<TabButtons title='metaverse' />
+					<TabButtons title='nft' />
+					<TabButtons title='staking' />
+					<TabButtons title='stablecoin' />
 				</div>
 				<div className='flex'>
 					<button
-						className='bg-white hover:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'
+						className='bg-white hover:bg-primary dark:bg-slate-600 hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'
 						onClick={() => setModal('asset')}
 					>
 						<em className='bi bi-search'></em>
 					</button>
 					<button
-						className='bg-white hover:bg-primary hover:text-white shadow-md rounded-full mx-2 px-4 py-1.5 uppercase'
+						className='bg-white hover:bg-primary dark:bg-slate-600 hover:text-white shadow-md rounded-full mx-2 px-4 py-1.5 uppercase'
 						onClick={() => setModal('currency')}
 					>
 						{!cryptoFetching && defaultCurrency.symbol}
@@ -222,37 +121,49 @@ const ExploreTable = () => {
 					</button>
 				</div>
 			</div>
-			{tabs.map((tab) => (
-				<div
-					key={tab.name}
-					className={tab.name === openTab ? 'block' : 'hidden'}
-				>
-					{tab.content}
-				</div>
-			))}
+			{!cryptoFetching ? (
+				<Table
+					coinsProps={cryptosList?.data?.coins}
+					currencyType={defaultCurrency.symbol}
+					loggedIn={loggedIn}
+				/>
+			) : (
+				<>
+					<TableHolder />
+					<TableHolder />
+					<TableHolder />
+				</>
+			)}
 
-			<div className='text-center my-6'>
-				<p className='my-2 text-[12px] text-slate-700 font-sans'>
-					{page} / {Math.round(cryptosList?.data?.stats?.totalCoins / 50)}
-				</p>
-				<div className='flex justify-center items-center'>
-					<button
-						className={`rounded-l-full text-white px-5 py-1 mx-0.5 outline-none ${
-							page < 2 ? 'cursor-not-allowed bg-blue-300' : 'bg-blue-500'
-						}`}
-						onClick={() => setPage(page > 1 && page - 1)}
-					>
-						Prev
-					</button>
-					<button
-						className='bg-blue-500 rounded-r-full text-white px-5 py-1 mx-0.5 outline-none'
-						onClick={() => setPage(page + 1)}
-					>
-						Next
-					</button>
+			{openTab !== 'watchlist' && (
+				<div className='text-center my-6'>
+					<p className='my-2 text-[12px] text-slate-700 font-sans'>
+						{page} / {Math.ceil(cryptosList?.data?.stats?.total / 50)}
+					</p>
+					<div className='flex justify-center items-center'>
+						<button
+							className={`rounded-l-full text-white px-5 py-1 mx-0.5 outline-none ${
+								page < 2 ? 'cursor-not-allowed bg-blue-300' : 'bg-blue-500'
+							}`}
+							onClick={() => {
+								setPage(page > 1 && page - 1);
+								window.scrollTo(0, 0);
+							}}
+						>
+							Prev
+						</button>
+						<button
+							className='bg-blue-500 rounded-r-full text-white px-5 py-1 mx-0.5 outline-none'
+							onClick={() => {
+								setPage(page + 1);
+								window.scrollTo(0, 0);
+							}}
+						>
+							Next
+						</button>
+					</div>
 				</div>
-			</div>
-
+			)}
 			{modal && (
 				<div className='fixed bg-black bg-opacity-20 w-screen h-screen z-30 top-0 right-0 flex justify-end'>
 					<div className='bg-white h-screen w-96 px-6 py-6 relative'>

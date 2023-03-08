@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const MenuBar = () => {
-	const MenuList = ({ title, icon, classProps }) => {
+	const MenuList = ({ title, icon, to, classProps }) => {
 		return (
-			<Link href='#'>
+			<Link href={`${to}`}>
 				<li
 					className={`px-4 py-3 my-1 rounded-lg ${classProps} hover:bg-primary hover:text-white`}
 				>
@@ -18,7 +18,7 @@ const MenuBar = () => {
 	};
 
 	return (
-		<div className='w-96 bg-gray-50 p-3 h-screen flex flex-col items-start justify-between rounded-xl my-2 ml-2 mr-1 border sticky top-0'>
+		<div className='w-96 bg-gray-50 p-3 h-screen flex flex-col items-start rounded-xl my-2 ml-2 mr-1 border sticky top-0'>
 			<div className='mb-3'>
 				<img src='/images/brand/logo.png' className='w-[80%]' alt='logo' />
 				<ul className='my-6'>
@@ -33,18 +33,22 @@ const MenuBar = () => {
 					<MenuList title='Notifications' icon='bell' />
 					<MenuList title='Trade' icon='activity' />
 					<MenuList title='Exchange' icon='arrow-left-right' />
+					<MenuList title='Go to home' icon='house' to='/explore' />
+					<Link
+						href={{
+							pathname: '/account/logout',
+							query: { to: '/account/login' },
+						}}
+					>
+						<li
+							className={`px-4 py-3 my-1 rounded-lg hover:bg-primary hover:text-white`}
+						>
+							<em className={`bi bi-power mr-2`}></em>
+							Logout
+						</li>
+					</Link>
 				</ul>
 			</div>
-			<Link
-				href={{
-					pathname: '/account/logout',
-					query: { to: '/account/login' },
-				}}
-				className='px-4 py-3 my-1 cursor-pointer rounded-lg w-full hover:bg-primary hover:text-white'
-			>
-				<em className='bi bi-power mr-2'></em>
-				Logout
-			</Link>
 		</div>
 	);
 };

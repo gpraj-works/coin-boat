@@ -4,44 +4,43 @@ import { ToCurrency } from 'components/components.utils';
 import ToSymbol from 'currency-symbol-map';
 import { Sparklines, SparklinesLine } from 'react-sparklines';
 import millify from 'millify';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
 import useSWR from 'swr';
+import TableHeader from './TableHeader';
 // 'https://api.frankfurter.app/latest?amount=10&from=USD&to=INR'
 
-const Cryptos = ({ coinsProps, currencyType }) => {
+const Cryptos = ({ coinsProps, currencyType, loggedIn }) => {
+	let CoinData = coinsProps;
+	const AddToWatchlist = async (coinId, coinSymbol, coinName) => {
+		let el = document.getElementById(`watchlist${coinId}`);
+		!loggedIn && toast.warning('Login is required!');
+		if (loggedIn) {
+			if (el.classList.contains('bi-star')) {
+				el.classList.replace('bi-star', 'bi-star-fill');
+			} else {
+				el.classList.replace('bi-star-fill', 'bi-star');
+			}
+			// const response = await fetch();
+		}
+	};
+
 	return (
 		<div className='container-fluid my-1'>
-			<div className='md:flex hidden px-3 dark:bg-gray-700 bg-white shadow-sm py-2 sticky top-0 z-30'>
-				<div className='text-center w-[5%]'>
-					<h3>#</h3>
-				</div>
-				<div className='md:w-[30%] w-[45%]'>
-					<h3>Name</h3>
-				</div>
-				<div className='md:w-[10%] w-[30%]'>
-					<h3>Price</h3>
-				</div>
-				<div className='w-[10%] mx-6'>
-					<h3>Chart</h3>
-				</div>
-				<div className='md:w-[10%]'>
-					<h3>Change</h3>
-				</div>
-				<div className='w-[15%] lg:block hidden'>
-					<h3>Market cap</h3>
-				</div>
-				<div className='px-4'>
-					<h3>More details</h3>
-				</div>
-			</div>
-			{coinsProps.map((coin, index) => (
+			<TableHeader />
+			{CoinData.map((coin, index) => (
 				<div
 					className='flex md:flex-row sm:flex-col flex-wrap py-4 px-3 w-full items-center hover:bg-slate-200 dark:hover:bg-slate-800 border-[0.3px] dark:border-gray-800'
 					key={index}
 				>
 					<div className='wishlist text-center w-[5%] hidden md:block'>
-						<button className=''>
-							<em className='bi bi-star'></em>
-						</button>
+						<button
+							className='bi bi-star'
+							id={`watchlist${coin.uuid}`}
+							onClick={() => {
+								AddToWatchlist(coin.uuid, coin.symbol, coin.name);
+							}}
+						></button>
 					</div>
 					<div className='coin justify-start flex items-center md:w-[30%] w-[45%]'>
 						<img src={coin.iconUrl} width={25} height={0} alt='Coin image' />
@@ -65,14 +64,19 @@ const Cryptos = ({ coinsProps, currencyType }) => {
 						</Sparklines>
 					</div>
 					<div className='change md:w-[10%]'>
-						{coin.change.includes('-') ? (
-							<span className='text-red-500'>{coin.change}</span>
+						{coin.change !== null ? (
+							coin.change.includes('-') ? (
+								<span className='text-red-500'>{coin.change}</span>
+							) : (
+								<span className='text-green-500'>&nbsp;{coin.change}</span>
+							)
 						) : (
-							<span className='text-green-500'>&nbsp;{coin.change}</span>
+							'0.00'
 						)}
 					</div>
 					<div className='market-cap w-[15%] hidden lg:block'>
-						{ToSymbol(currencyType) + millify(coin.marketCap)}
+						{ToSymbol(currencyType) +
+							millify(coin.marketCap !== null ? coin.marketCap : '0')}
 					</div>
 					<div className='buttons w-[10%] px-4 flex'>
 						<Link

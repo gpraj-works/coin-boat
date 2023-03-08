@@ -1,8 +1,11 @@
 import Head from 'next/head';
 import { Navbar, Stats, Explore, Footer } from '@/components/index';
-import { useSelector } from 'react-redux';
+import AuthGet from '@/services/auth.get';
+import { ToastContainer } from 'react-toastify';
+import { loadState } from 'providers/storage';
 
 const ExploreCoins = () => {
+	const authGet = AuthGet();
 	return (
 		<>
 			<Head>
@@ -14,6 +17,12 @@ const ExploreCoins = () => {
 			<Navbar />
 			<Explore />
 			<Footer />
+			<ToastContainer
+				autoClose={3500}
+				position='bottom-right'
+				// theme=''
+				limit={3}
+			/>
 		</>
 	);
 };

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { MakeChips } from '@/components/components.utils';
 import { useRouter } from 'next/router';
@@ -15,6 +16,7 @@ const Login = () => {
 	const [eye, setEye] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [verify, setVerify] = useState(false);
+	const [gotTo, setGoto] = useState(false);
 	const [failed, setFailed] = useState(false);
 	const {
 		register,
@@ -52,7 +54,8 @@ const Login = () => {
 		if (response.status === 200) {
 			Cookies.set('token', result.data, { expires: 1 });
 			dispatch(updateAccess(true));
-			router.push('/dashboard/');
+			gotTo === 'dashboard' && router.push('/dashboard/');
+			gotTo === 'explore' && router.back();
 		}
 	};
 
@@ -179,14 +182,25 @@ const Login = () => {
 												'Must contain capital letter, number and symbol'}
 										</p>
 									</div>
-
 									{!loading ? (
-										<button
-											type='submit'
-											className='text-white bg-primary hover:bg-blue-600 outline-none font-medium rounded-full w-full sm:w-auto px-6 py-2.5 text-center mt-1'
-										>
-											Go to dashboard
-										</button>
+										<div className='flex flex-col justify-between align-middle'>
+											<button
+												type='submit'
+												id='explore'
+												className=' text-white bg-primary hover:bg-blue-600 outline-none font-medium rounded-full w-full sm:w-auto px-6 py-2.5 text-center mt-1 mb-2'
+												onClick={() => setGoto('explore')}
+											>
+												Login & Get back
+											</button>
+											<button
+												type='submit'
+												id='dashboard'
+												className='text-primary border border-primary hover:bg-blue-600 hover:text-white outline-none font-medium rounded-full w-full sm:w-auto px-6 py-2.5 text-center mt-1'
+												onClick={() => setGoto('dashboard')}
+											>
+												Go to dashboard
+											</button>
+										</div>
 									) : (
 										<div className='bg-primary hover:bg-blue-600 rounded-full px-2 py-1 w-36'>
 											<span className='loader'></span>
@@ -235,6 +249,17 @@ const Login = () => {
 							)}
 						</div>
 					)}
+
+					<p className='text-center text-slate-500 mb-4'>
+						<Link href='/account/forgot' className='mx-1 text-blue-700'>
+							Forgot
+						</Link>
+						password or
+						<Link href='/explore' className='mx-1 text-blue-700'>
+							Cancel
+						</Link>
+						login
+					</p>
 				</div>
 			</div>
 		</>

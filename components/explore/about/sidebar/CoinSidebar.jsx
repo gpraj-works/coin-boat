@@ -9,21 +9,26 @@ import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { updateCurrency } from 'services/crypto.utils';
 import PriceCalculator from '../PriceCalculator';
+import { GetCrypto } from '@/services/api.crypto';
 
 const CoinSidebar = ({ about, defaultCurrency }) => {
+	const Crypto = new GetCrypto();
 	const dispatch = useDispatch();
 	const [refCurrency, setRefCurrency] = useState(defaultCurrency.symbol);
 
-	const { data: refCurrencies, isFetching: refCurrencyFetching } =
-		useGetRefCurrencyQuery(refCurrency);
+	const { data: refCurrencies, isLoading: refCurrencyFetching } =
+		Crypto.RefCurrencies({ refCurrency });
 
 	const [refAsset, setRefAsset] = useState('bitcoin');
-	const { data: refAssets, isFetching: refAssetsFetching } =
-		useGetRefAssetQuery(refAsset);
+	const { data: refAssets, isLoading: refAssetsFetching } = Crypto.RefAssets({
+		refAsset,
+	});
+
 	const [modal, setModal] = useState(false);
 
-	const { data: cryptoStats, isFetching: cryptoStatsFetching } =
-		useGetCryptoStatsQuery(defaultCurrency.id);
+	const { data: cryptoStats, isLoading: cryptoStatsFetching } = Crypto.Stats({
+		refCurrency: defaultCurrency.id,
+	});
 
 	const newestCoins = cryptoStats?.data?.newestCoins;
 
@@ -157,7 +162,7 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 								  ))
 								: refAssets?.data?.coins.map((item, index) => (
 										<Link
-											href='#'
+											href={`/explore/${item.uuid}`}
 											key={index}
 											className=' text-slate-600 py-2 px-4 w-full text-left outline-none hover:bg-slate-100 flex'
 										>

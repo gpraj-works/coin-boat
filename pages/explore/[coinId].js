@@ -6,24 +6,23 @@ import {
 	Stats,
 	TopBar,
 } from '@/components/index';
+import { GetCrypto } from '@/services/api.crypto';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
-import { useGetCryptoByIdQuery } from 'services/crypto.api';
+import { useSelector } from 'react-redux';
 
 const AboutCoin = () => {
+	const Crypto = new GetCrypto();
 	const router = useRouter();
 	const coinId = router.query.coinId && router.query.coinId;
-
 	const defaultCurrency = useSelector(
 		(state) => state.currencyType.defaultCurrency
 	);
-	const dispatch = useDispatch();
-	let currency = defaultCurrency.id;
-
-	const { data, isFetching } = useGetCryptoByIdQuery({ coinId, currency });
-
-	const explore = !isFetching && data?.data?.coin;
+	const { data, isLoading } = Crypto.ById({
+		coinId,
+		refCurrency: defaultCurrency.id,
+	});
+	const explore = !isLoading && data?.data?.coin;
 
 	return (
 		<>
