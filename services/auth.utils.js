@@ -5,7 +5,7 @@ const persistedState = loadState('auth');
 const authSlice = createSlice({
 	name: 'authUtils',
 	initialState: {
-		loggedIn: persistedState ? persistedState : false,
+		loggedIn: persistedState ? persistedState : false
 	},
 	reducers: {
 		updateAccess: (state, action) => {

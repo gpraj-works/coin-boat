@@ -63,7 +63,10 @@ const Dashboard = () => {
 								Your login session has expired! please login again to continue
 							</p>
 							<Link
-								href='/account/login'
+								href={{
+									pathname: '/account/login',
+									query: { from: router.pathname },
+								}}
 								className='bg-primary hover:bg-blue-600 py-2.5 px-6 rounded-full text-white mt-4 mb-2'
 							>
 								Login Again

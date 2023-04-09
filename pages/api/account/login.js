@@ -1,5 +1,6 @@
-import { EatChips } from '@/components/components.utils';
+import { EatChips } from '@/components/utilities/Crypt';
 import dbConnect from '@/config/dbConnect';
+import { sendError } from 'next/dist/server/api-utils';
 const jwt = require('jsonwebtoken');
 
 const login = async (req, res) => {
@@ -40,7 +41,7 @@ const login = async (req, res) => {
 				}
 			}
 		} catch (error) {
-			res.status(400).json({ success: false, message: error });
+			res.status(401).json({ success: false, message: error });
 		}
 	}
 };

@@ -1,5 +1,6 @@
 import { EatChips, RequestOtp } from '@/components/components.utils';
 import dbConnect from '@/config/dbConnect';
+import OtpTemplate from '@/components/account/EmailTemplates/OTP';
 import jwt from 'jsonwebtoken';
 // import nodemailer from 'nodemailer';
 const sgMail = require('@sendgrid/mail');
@@ -16,49 +17,43 @@ const verify = async (req, res) => {
 
 	if (method === 'PUT') {
 		const msg = {
-			to: 'work.gpraj@gmail.com',
-			from: 'gpraj@outlook.in',
-			subject: 'Sending with SendGrid is Fun',
-			text: 'and easy to do anywhere, even with Node.js',
-			html: `OTP:<strong>${OTP}</strong>`,
+			to: query.email,
+			from: { email: 'gpraj@outlook.in', name: 'CoinBoat' },
+			subject: 'Received email from coinboat',
+			text: 'Thanks for registering!',
+			html: OtpTemplate(OTP),
 		};
 
-		(async () => {
-			try {
-				await sgMail.send(msg);
-				const exist = await collection.findOne({ email: query.email });
-				const updated = await collection.updateOne(
-					{ _id: exist._id },
-					{ $set: { otpCode: OTP } }
-				);
-				res.status(200).json({ success: true, data: updated });
-			} catch (error) {
-				res.status(401).json({ success: false, message: error });
-			}
-		})();
+		try {
+			await sgMail.send(msg);
+			const exist = await collection.findOne({ email: query.email });
+			const updated = await collection.updateOne(
+				{ _id: exist._id },
+				{ $set: { otpCode: OTP } }
+			);
+			res.status(200).json({ success: true, data: updated });
+		} catch (error) {
+			res.status(401).json({ success: false, message: error });
+		}
 	}
 
 	if (method === 'POST') {
 		try {
-			const exist = await collection.findOne({ email: EatChips(query.email) });
+			const exist = await collection.findOne({ email: query.email });
 			if (exist.otpCode === query.otp) {
 				const updated = await collection.updateOne(
 					{ _id: exist._id },
 					{ $set: { isVerified: true }, $unset: { otpCode: exist.otpCode } }
 				);
 				if (updated.acknowledged) {
-					const token = jwt.sign(
-						{ userId: exist._id },
-						process.env.SALT_FOR_CHIPS,
-						{
-							expiresIn: '1h',
-						}
-					);
-					res.setHeader(
-						'Set-Cookie',
-						`token=${token}; HttpOnly; Path=/dashboard; Max-Age=${60 * 60}`
-					);
-					res.status(200).json({ success: true, data: 'Verified' });
+					// const token = jwt.sign(
+					// 	{
+					// 		user: exist,
+					// 	},
+					// 	secret,
+					// 	{ expiresIn: 60 * 10 }
+					// );
+					res.status(200).json({ success: true, data: updated });
 				}
 			} else {
 				res.status(401).json({ success: false, message: 'Invalid OTP' });

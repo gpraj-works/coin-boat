@@ -1,87 +1,49 @@
+import { updateAccess } from '@/services/auth.utils';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import Head from 'next/head';
-import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { MakeChips } from '@/components/components.utils';
 import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { updateAccess } from '@/services/auth.utils';
 
-const Login = () => {
+const Login = ({ routeFrom }) => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const [typing, setTyping] = useState(false);
 	const [eye, setEye] = useState(false);
 	const [loading, setLoading] = useState(false);
-	const [verify, setVerify] = useState(false);
-	const [gotTo, setGoto] = useState(false);
 	const [failed, setFailed] = useState(false);
+
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 	} = useForm();
-
-	const onSubmit = async (data) => {
+	const onSubmit = async (formData) => {
 		setLoading(true);
 
 		const prepared = {
-			email: data.email,
-			password: data.password,
+			email: formData.email,
+			password: formData.password,
 		};
 
-		const response = await fetch('/api/account/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			mode: 'cors',
-			cache: 'default',
-			body: JSON.stringify(prepared),
-		});
-
-		const result = await response.json();
-
-		setLoading(false);
-
-		response.status === 401 && setFailed(result.message);
-		if (response.status === 400) {
-			setVerify({ message: result.message, email: data.email });
-		}
-
-		if (response.status === 200) {
-			Cookies.set('token', result.data, { expires: 1 });
-			dispatch(updateAccess(true));
-			gotTo === 'dashboard' && router.push('/dashboard/');
-			gotTo === 'explore' && router.back();
-		}
-	};
-
-	const GenerateOTP = async (email) => {
-		setLoading(true);
-
-		const prepared = {
-			email: email,
-		};
-
-		const response = await fetch('/api/account/verify', {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			mode: 'cors',
-			cache: 'default',
-			body: JSON.stringify(prepared),
-		});
-		const result = await response.json();
-
-		if (response.status === 200) {
-			router.push({
-				pathname: '/account/verify',
-				query: { chips: MakeChips(verify.email) },
-			});
+		try {
+			const { data } = await axios.post('/api/account/login', prepared);
+			setLoading(false);
+			Cookies.set('token', data.data, { expires: 1 }); //Store-Token
+			dispatch(updateAccess(true)); //Set-LoggedIn
+			routeFrom !== null ? router.push(routeFrom) : router.push('/explore');
+		} catch (error) {
+			const errorMessage = error.response.data.message;
+			setFailed(errorMessage); //Set-Error
+			error.response.status === 400 &&
+				router.push({
+					pathname: '/account/verify',
+					query: { chips: prepared.email },
+				});
 		}
 	};
 
@@ -94,161 +56,103 @@ const Login = () => {
 			</Head>
 			<div className='flex justify-center items-center h-screen'>
 				<div className='shadow-md xl:w-[30%] lg:w-[50%] md:w-[70%] w-full py-6 px-10 border rounded-lg'>
-					{!verify ? (
-						<>
-							<h3 className='heading text-2xl mt-3 mb-6 flex items-center'>
-								Login to Coinboat&nbsp;
-								<Image
-									src={`/images/account/emoji/emoji_${
-										!typing ? '014' : '007'
-									}.png`}
-									alt="emoji's"
-									width={35}
-									height={35}
+					<h3 className='heading text-2xl mt-3 mb-6 flex items-center'>
+						Login to Coinboat&nbsp;
+						<Image
+							src={`/images/account/emoji/emoji_${!typing ? '014' : '007'}.png`}
+							alt="emoji's"
+							width={35}
+							height={35}
+						/>
+					</h3>
+					<div className='mb-4'>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<div className='mb-6'>
+								<label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
+									Email address
+								</label>
+								<input
+									type='email'
+									className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500'
+									placeholder='Registered email address'
+									{...register('email', {
+										required: true,
+										pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
+										onChange: () => setTyping(true),
+										onBlur: () => setTyping(false),
+									})}
+									aria-invalid={errors.email ? 'true' : 'false'}
 								/>
-							</h3>
-							<div className='mb-4'>
-								<form onSubmit={handleSubmit(onSubmit)}>
-									<div className='mb-6'>
-										<label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-											Email address
-										</label>
-										<input
-											type='email'
-											className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500'
-											placeholder='Registered email address'
-											value='gprajutr2@gmail.com'
-											{...register('email', {
-												required: true,
-												pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
-												onChange: () => setTyping(true),
-												onBlur: () => setTyping(false),
-											})}
-											aria-invalid={errors.email ? 'true' : 'false'}
-										/>
-										<p
-											role='alert'
-											className='text-danger mt-2 mx-1 -mb-2 text-sm'
-										>
-											{errors.email?.type === 'required' && 'Email is required'}
-											{errors.email?.type === 'pattern' &&
-												'Please enter valid email'}
-										</p>
-									</div>
-									<div className='mb-6'>
-										<label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-											Password
-										</label>
-										<div className='relative'>
-											<input
-												type={`${!eye ? 'password' : 'text'}`}
-												className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-blue-500 block w-full py-2.5 pl-2.5 pr-10 tracking-wide'
-												placeholder='Secured password'
-												value='gpraj888GPRAJ@'
-												{...register('password', {
-													required: true,
-													minLength: 8,
-													pattern:
-														/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,24}$/i,
-													onChange: () => setTyping(true),
-													onBlur: () => setTyping(false),
-												})}
-												aria-invalid={errors.password ? 'true' : 'false'}
-											/>
-											<button
-												type='button'
-												className='absolute top-0 right-0 m-[3px] outline-none'
-												onClick={() => setEye(!eye)}
-											>
-												<Image
-													src={`/images/account/emoji/emoji_${
-														!eye ? '004' : '015'
-													}.png`}
-													alt="emoji's"
-													width={35}
-													height={35}
-												/>
-											</button>
-										</div>
-										<p
-											role='alert'
-											className='text-danger mt-2 mx-1 -mb-2 text-sm'
-										>
-											{errors.password?.type === 'required' &&
-												'Password is required'}
-											{errors.password?.type === 'minLength' &&
-												'Password must 8 characters length'}
-											{errors.password?.type === 'pattern' &&
-												'Must contain capital letter, number and symbol'}
-										</p>
-									</div>
-									{!loading ? (
-										<div className='flex flex-col justify-between align-middle'>
-											<button
-												type='submit'
-												id='explore'
-												className=' text-white bg-primary hover:bg-blue-600 outline-none font-medium rounded-full w-full sm:w-auto px-6 py-2.5 text-center mt-1 mb-2'
-												onClick={() => setGoto('explore')}
-											>
-												Login & Get back
-											</button>
-											<button
-												type='submit'
-												id='dashboard'
-												className='text-primary border border-primary hover:bg-blue-600 hover:text-white outline-none font-medium rounded-full w-full sm:w-auto px-6 py-2.5 text-center mt-1'
-												onClick={() => setGoto('dashboard')}
-											>
-												Go to dashboard
-											</button>
-										</div>
-									) : (
-										<div className='bg-primary hover:bg-blue-600 rounded-full px-2 py-1 w-36'>
-											<span className='loader'></span>
-										</div>
-									)}
-								</form>
+								<p role='alert' className='text-danger mt-2 mx-1 -mb-2 text-sm'>
+									{errors.email?.type === 'required' && 'Email is required'}
+									{errors.email?.type === 'pattern' &&
+										'Please enter valid email'}
+								</p>
 							</div>
-						</>
-					) : (
-						<div className='flex flex-col items-center py-8'>
-							<h3 className='flex items-center text-3xl heading'>
-								<Image
-									src='/images/account/emoji/emoji_010.png'
-									alt="emoji's"
-									width={35}
-									height={35}
-									className='mr-2'
-								/>
-								{verify.message}
-							</h3>
-							<ul className='mt-2'>
-								<li className='text-lg'>
-									<em className='bi bi-check2-all mr-2 text-success text-xl'></em>
-									Account registration
-								</li>
-								<li className='text-lg'>
-									<em className='bi bi-check2-all mr-2 text-gray-500 text-xl'></em>
-									Account verification
-								</li>
-								<li className='text-lg'>
-									<em className='bi bi-check2-all mr-2 text-gray-500 text-xl'></em>
-									Complete Profile
-								</li>
-							</ul>
+							<div className='mb-6'>
+								<label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
+									Password
+								</label>
+								<div className='relative'>
+									<input
+										type={`${!eye ? 'password' : 'text'}`}
+										className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-blue-500 block w-full py-2.5 pl-2.5 pr-10 tracking-wide'
+										placeholder='Secured password'
+										{...register('password', {
+											required: true,
+											minLength: 8,
+											pattern:
+												/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,24}$/i,
+											onChange: () => setTyping(true),
+											onBlur: () => setTyping(false),
+										})}
+										aria-invalid={errors.password ? 'true' : 'false'}
+									/>
+									<button
+										type='button'
+										className='absolute top-0 right-0 m-[3px] outline-none'
+										onClick={() => setEye(!eye)}
+									>
+										<Image
+											src={`/images/account/emoji/emoji_${
+												!eye ? '004' : '015'
+											}.png`}
+											alt="emoji's"
+											width={35}
+											height={35}
+										/>
+									</button>
+								</div>
+								<p role='alert' className='text-danger mt-2 mx-1 -mb-2 text-sm'>
+									{errors.password?.type === 'required' &&
+										'Password is required'}
+									{errors.password?.type === 'minLength' &&
+										'Password must 8 characters length'}
+									{errors.password?.type === 'pattern' &&
+										'Must contain capital letter, number and symbol'}
+								</p>
+							</div>
+							{failed && (
+								<p className='mb-2 text-center text-danger'>{failed}</p>
+							)}
+
 							{!loading ? (
-								<button
-									className='bg-primary hover:bg-blue-600 py-2.5 px-6 rounded-full text-white mt-4 mb-2'
-									onClick={() => GenerateOTP(verify.email)}
-								>
-									Verify Account
-								</button>
+								<div className='flex flex-col justify-between align-middle'>
+									<button
+										type='submit'
+										id='dashboard'
+										className='text-primary border border-primary hover:bg-blue-500 hover:text-white outline-none font-medium rounded-full w-full sm:w-auto px-6 py-2.5 text-center mt-2'
+									>
+										Login and Get back
+									</button>
+								</div>
 							) : (
-								<div className='bg-primary hover:bg-blue-600 rounded-full px-2 py-1 w-36 mt-5'>
+								<div className='bg-primary hover:bg-blue-600 rounded-full px-2 py-1 w-36'>
 									<span className='loader'></span>
 								</div>
 							)}
-						</div>
-					)}
+						</form>
+					</div>
 
 					<p className='text-center text-slate-500 mb-4'>
 						<Link href='/account/forgot' className='mx-1 text-blue-700'>
@@ -267,3 +171,11 @@ const Login = () => {
 };
 
 export default Login;
+
+export async function getServerSideProps(context) {
+	const { query } = context;
+	const route = query.from;
+	return {
+		props: { routeFrom: route ? query.from : null },
+	};
+}

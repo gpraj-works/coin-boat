@@ -1,53 +1,53 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { CryptoFetch } from 'providers/crypto';
+import React, { Component } from 'react';
 
-const cryptoApiHeaders = {
-	'x-rapidapi-host': process.env.CRYPTO_API_HOST,
-	'x-rapidapi-key': process.env.CRYPTO_API_KEY,
-};
-const createRequest = (url) => ({ url, headers: cryptoApiHeaders });
+export class GetCrypto extends Component {
+	constructor() {
+		super();
+		this.state = {
+			base: process.env.CRYPTO_API_BASE,
+		};
+	}
 
-export const cryptoApi = createApi({
-	reducerPath: 'cryptoApi',
-	baseQuery: fetchBaseQuery({ baseUrl: process.env.CRYPTO_API_BASE }),
-	endpoints: (builder) => ({
-		getCryptos: builder.query({
-			query: ({ offset, currency, tag }) =>
-				createRequest(
-					`/coins?referenceCurrencyUuid=${currency}&limit=50&offset=${offset}${
-						tag && '&tags[]=' + tag
-					}`
-				),
-		}),
-		getCryptoById: builder.query({
-			query: ({ coinId, currency }) =>
-				createRequest(`/coin/${coinId}?referenceCurrencyUuid=${currency}`),
-		}),
-		getCryptoStats: builder.query({
-			query: (refCurrency) =>
-				createRequest(`/stats?referenceCurrencyUuid=${refCurrency}`),
-		}),
-		getRefCurrency: builder.query({
-			query: (refCurrency) =>
-				createRequest(`/reference-currencies?search=${refCurrency}`),
-		}),
-		getRefAsset: builder.query({
-			query: (refAsset) =>
-				createRequest(`/search-suggestions?query=${refAsset}`),
-		}),
-		getPriceHistory: builder.query({
-			query: ({ coinId, refCurrency, timePeriod }) =>
-				createRequest(
-					`/coin/${coinId}/history?referenceCurrencyUuid=${refCurrency}&timePeriod=${timePeriod}`
-				),
-		}),
-	}),
-});
+	All({ refCurrency, offset, tag, changesFrom }) {
+		const url = `${
+			this.state.base
+		}/coins?timePeriod=${changesFrom}&referenceCurrencyUuid=${refCurrency}&limit=50&offset=${offset}${
+			tag && '&tags[]=' + tag
+		}`;
 
-export const {
-	useGetCryptosQuery,
-	useGetCryptoByIdQuery,
-	useGetCryptoStatsQuery,
-	useGetRefCurrencyQuery,
-	useGetRefAssetQuery,
-	useGetPriceHistoryQuery,
-} = cryptoApi;
+		return CryptoFetch(url);
+	}
+	ById({ coinId, refCurrency }) {
+		const url = `${this.state.base}/coin/${coinId}?referenceCurrencyUuid=${refCurrency}`;
+		return CryptoFetch(url);
+	}
+	Stats({ refCurrency }) {
+		const url = `${this.state.base}/stats?referenceCurrencyUuid=${refCurrency}`;
+		return CryptoFetch(url);
+	}
+	RefCurrencies({ refCurrency }) {
+		const url = `${this.state.base}/reference-currencies?search=${refCurrency}`;
+		return CryptoFetch(url);
+	}
+	RefAssets({ refAsset }) {
+		const url = `${this.state.base}/search-suggestions?query=${refAsset}`;
+		return CryptoFetch(url);
+	}
+	PriceById({ coinId, refCurrency, timePeriod }) {
+		const url = `${this.state.base}/coin/${coinId}/history?referenceCurrencyUuid=${refCurrency}&timePeriod=${timePeriod}`;
+		return CryptoFetch(url);
+	}
+	PriceHistory({ coinId, refCurrency, timePeriod }) {
+		const url = `${this.state.base}/coin/${coinId}/history?referenceCurrencyUuid=${refCurrency}&timePeriod=${timePeriod}`;
+		return CryptoFetch(url);
+	}
+	SearchBySymbol({ refSymbol }) {
+		const url = `${this.state.base}/coins?${refSymbol}`;
+		return CryptoFetch(url);
+	}
+	CirculatingSupply({ coinId, refCurrency }) {
+		const url = `${this.state.base}/coin/${coinId}?referenceCurrencyUuid=${refCurrency}`;
+		return CryptoFetch(url);
+	}
+}

@@ -1,9 +1,13 @@
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import CryptoJS from 'crypto-js';
+
+//Add comma between numbers
 
 const localeString = (value) => {
 	return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
+
+//Convert number into currency
 
 const ToCurrency = ({ price, type, lang, digits }) => {
 	return new Intl.NumberFormat(lang ? lang : 'en-US', {
@@ -13,9 +17,7 @@ const ToCurrency = ({ price, type, lang, digits }) => {
 	}).format(price);
 };
 
-const MakeChips = (potato) => {
-	return CryptoJS.AES.encrypt(potato, process.env.SALT_FOR_CHIPS).toString();
-};
+//Generate otp
 
 const RequestOtp = () => {
 	var digits = '0123456789';
@@ -26,10 +28,24 @@ const RequestOtp = () => {
 	return OTP;
 };
 
-const EatChips = (chips) => {
-	let pepper = CryptoJS.AES.decrypt(chips, process.env.SALT_FOR_CHIPS);
-	return pepper.toString(CryptoJS.enc.Utf8);
+//Get Scroll Position
+
+const GetScrollPosition = () => {
+	const [scrollPosition, setScrollPosition] = useState(0);
+
+	useEffect(() => {
+		const updatePosition = () => {
+			setScrollPosition(window.pageYOffset);
+		};
+		window.addEventListener('scroll', updatePosition);
+		updatePosition();
+		return () => window.removeEventListener('scroll', updatePosition);
+	}, []);
+
+	return scrollPosition;
 };
+
+//Guess social media from link
 
 const FindLink = ({ links }) => {
 	const communityNames = [
@@ -114,4 +130,4 @@ const FindLink = ({ links }) => {
 	);
 };
 
-export { localeString, ToCurrency, FindLink, MakeChips, EatChips, RequestOtp };
+export { localeString, ToCurrency, FindLink, RequestOtp, GetScrollPosition };

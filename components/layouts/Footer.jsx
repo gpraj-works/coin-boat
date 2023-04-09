@@ -2,9 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const Footer = () => {
+const Footer = ({ classProps }) => {
 	return (
-		<div className='dark:bg-slate-800 bg-white py-2 px-4 text-sm flex items-center justify-between'>
+		<div
+			className={`dark:bg-slate-800 bg-white py-2 px-4 text-sm flex items-center justify-between ${classProps}`}
+		>
 			<p className='text-lg flex items-center'>
 				<Image
 					src='/images/brand/coinboat.png'

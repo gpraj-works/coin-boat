@@ -1,15 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
-import {
-	useGetRefCurrencyQuery,
-	useGetRefAssetQuery,
-	useGetCryptoStatsQuery,
-} from 'services/crypto.api';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { updateCurrency } from 'services/crypto.utils';
 import PriceCalculator from '../PriceCalculator';
-import { GetCrypto } from '@/services/api.crypto';
+import { GetCrypto } from '@/services/crypto.api';
 
 const CoinSidebar = ({ about, defaultCurrency }) => {
 	const Crypto = new GetCrypto();

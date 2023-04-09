@@ -11,7 +11,7 @@ const auth = async (req, res) => {
 			const user = jwt.verify(query.token, secret);
 			res.status(200).json({ success: true, data: user });
 		} catch (err) {
-			res.status(401).json({ success: false, message: err });
+			res.status(200).json({ success: false, message: err });
 		}
 	}
 };

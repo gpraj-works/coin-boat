@@ -37,7 +37,7 @@ const MenuBar = () => {
 					<Link
 						href={{
 							pathname: '/account/logout',
-							query: { to: '/account/login' },
+							query: { to: '/explore' },
 						}}
 					>
 						<li

@@ -1,36 +1,31 @@
 import React, { useState } from 'react';
-import { useGetPriceHistoryQuery } from 'services/crypto.api';
 import { useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import { ToCurrency } from '@/components/components.utils';
+import { GetCrypto } from '@/services/crypto.api';
 
 const CoinChart = ({ uuid }) => {
-	const coinId = uuid;
-
+	const Crypto = new GetCrypto();
 	const theme = localStorage.getItem('theme');
-
 	const defaultCurrency = useSelector(
-		(state) => state.currencyType.defaultCurrency
+		(state) => state.currencyUtils.defaultCurrency
 	);
-
 	const refCurrency = defaultCurrency.id;
 	const [timePeriod, setTimePeriod] = useState('1h');
-
 	const [trackingPrice, setTrackingPrice] = useState(false);
-
-	const { data: history, isFetching } = useGetPriceHistoryQuery({
-		coinId,
+	const { data: history, isLoading } = Crypto.PriceHistory({
+		coinId: uuid,
 		refCurrency,
 		timePeriod,
 	});
 
 	let cryptoHistory = history?.data?.history;
-	let cryptoChange = history?.data?.change;
+	// let cryptoChange = history?.data?.change;
 
 	let preparedData = [];
 
-	if (!isFetching) {
+	if (!isLoading) {
 		cryptoHistory.map((item, index) => {
 			// let toSplit = String(item.price).split('.');
 			// let prepared = toSplit[0] + '.' + toSplit[1].slice(0, 2);
@@ -140,13 +135,13 @@ const CoinChart = ({ uuid }) => {
 					) : (
 						<span>{cryptoChange}</span>
 					)} */}
-					{trackingPrice &&
+					{trackingPrice && (
 						<ToCurrency
 							price={trackingPrice}
 							type={defaultCurrency.symbol}
 							digits={3}
 						/>
-					}
+					)}
 				</p>
 				<div>
 					<FilterChart title='1h' time='1h' />

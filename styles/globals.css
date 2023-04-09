@@ -24,28 +24,41 @@ html.dark {
 @tailwind utilities;
 
 @layer utilities {
-	body .scrollbar::-webkit-scrollbar {
-		width: 10px;
-		height: 20px;
-	}
-
-	body .scrollbar::-webkit-scrollbar-track {
-		border-radius: 100vh;
-		background: #f9fafb;
-	}
-
-	body .scrollbar::-webkit-scrollbar-thumb {
-		background: #d1d5db;
-		border-radius: 100vh;
-		border: none;
-	}
-
-	body .scrollbar::-webkit-scrollbar-thumb:hover {
-		background: #9ca3af;
-	}
-
 	.heading {
 		font-family: 'Sansita', sans-serif;
 		@apply tracking-wide;
 	}
+
+	.btn {
+		@apply px-6 py-2 rounded-full border;
+	}
+
+	.btn-primary-filled {
+		@apply hover:bg-blue-600 border-primary bg-primary text-white;
+	}
+
+	.btn-primary-bordered {
+		@apply hover:bg-blue-600 hover:text-white border-primary text-primary;
+	}
 }
+
+body .scrollbar::-webkit-scrollbar {
+	width: 10px;
+	height: 20px;
+}
+
+body .scrollbar::-webkit-scrollbar-track {
+	border-radius: 100vh;
+	background: #f9fafb;
+}
+
+body .scrollbar::-webkit-scrollbar-thumb {
+	background: #d1d5db;
+	border-radius: 100vh;
+	border: none;
+}
+
+body .scrollbar::-webkit-scrollbar-thumb:hover {
+	background: #9ca3af;
+}
+

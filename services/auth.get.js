@@ -24,7 +24,7 @@ const AuthGet = () => {
 		dispatch(updateAccess(false));
 		return false;
 	} else {
-		return true;
+		return authTest?.data?.user;
 	}
 };
 

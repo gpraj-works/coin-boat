@@ -6,7 +6,7 @@ import {
 	Stats,
 	TopBar,
 } from '@/components/index';
-import { GetCrypto } from '@/services/api.crypto';
+import { GetCrypto } from '@/services/crypto.api';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ const AboutCoin = () => {
 	const router = useRouter();
 	const coinId = router.query.coinId && router.query.coinId;
 	const defaultCurrency = useSelector(
-		(state) => state.currencyType.defaultCurrency
+		(state) => state.currencyUtils.defaultCurrency
 	);
 	const { data, isLoading } = Crypto.ById({
 		coinId,
@@ -49,7 +49,7 @@ const AboutCoin = () => {
 								</div>
 							</div>
 						</main>
-						<aside className='bg-white dark:bg-slate-700 w-full md:w-80 shadow-sm rounded-md md:ml-1 px-4 py-5 md:order-2 order-1 md:sticky h-screen top-[7px] z-0'>
+						<aside className='bg-white dark:bg-slate-700 w-full md:w-80 shadow-sm rounded-md md:ml-1 px-4 py-5 md:order-2 order-1 md:sticky h-[730px] top-[7px] z-0'>
 							<CoinSidebar about={explore} defaultCurrency={defaultCurrency} />
 						</aside>
 					</div>

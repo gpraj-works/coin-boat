@@ -6,7 +6,8 @@
 			"@/explore/*": ["components/explore/*"],
 			"@/dashboard/*": ["components/dashboard/*"],
 			"@/config/*": ["config/*"],
-			"@/services/*": ["services/*"]
+			"@/services/*": ["services/*"],
+			"@/styles/*": ["styles/*"]
 		}
 	}
 }

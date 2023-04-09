@@ -1,14 +1,18 @@
+import axios from 'axios';
 import useSWR from 'swr';
 
-const fetcher = async (url) => {
-	const options = {
-		headers: {
-			'X-RapidAPI-Key': process.env.CRYPTO_API_KEY,
-			'X-RapidAPI-Host': process.env.CRYPTO_API_HOST,
-		},
-	};
-	return await fetch(url, options).then((res) => res.json());
+const headers = {
+	'X-RapidAPI-Key': process.env.CRYPTO_API_KEY,
+	'X-RapidAPI-Host': process.env.CRYPTO_API_HOST,
 };
 
-export const CryptoFetch = (url) =>
-	useSWR(url, fetcher, { refreshInterval: 1000 });
+const fetcher = async (url, headers) => {
+	const { data } = await axios.get(url, { headers });
+	return data;
+};
+
+export const CryptoFetch = (url) => {
+	return useSWR(url, (url) => fetcher(url, headers), {
+		refreshInterval: 10000,
+	});
+};

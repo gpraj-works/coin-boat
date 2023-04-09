@@ -1,11 +1,11 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: true,
 	env: {
-		CRYPTO_API_KEY: process.env.CRYPTO_API_KEY,
+		CRYPTO_API_KEY: 'd80ce7a7d6msh1362a55e1f15970p142d96jsn5c43891d674b',
 		CRYPTO_API_HOST: process.env.CRYPTO_API_HOST,
 		CRYPTO_API_BASE: process.env.CRYPTO_API_BASE,
-		MONGO_DB_CONN: process.env.MONGO_DB_CONN,
+		MONGO_DB_CONN:
+			'mongodb+srv://work-gpraj:37taFZd3I662BtEJ@cluster0.dtetwnz.mongodb.net/?retryWrites=true&w=majority',
 		NEWS_API_BASE: process.env.NEWS_API_BASE,
 		NEWS_API_KEY: process.env.NEWS_API_KEY,
 		SALT_FOR_CHIPS: process.env.SALT_FOR_CHIPS,
