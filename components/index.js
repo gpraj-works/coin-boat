@@ -4,7 +4,6 @@ export { default as Header } from './layouts/Header';
 export { default as Stats } from './explore/Stats';
 export { default as Explore } from './explore/Explore';
 export { default as Table } from './explore/listing/Table';
-export { default as Watchlist } from './explore/listing/Watchlist';
 export { default as CoinSidebar } from './explore/about/sidebar/CoinSidebar';
 export { default as CoinOverview } from './explore/about/CoinOverview';
 export { default as TopBar } from './explore/about/TopBar';

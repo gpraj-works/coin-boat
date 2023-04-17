@@ -13,7 +13,7 @@ const Header = () => {
 						Track Market Price!
 					</h1>
 					<h3 className='text-3xl my-4'>
-						With<span className='text-blue-500'> #CoinBoat</span> Marketplace.
+						With<span className='text-blue-500'> #CoinBoat</span> Explorer.
 					</h3>
 					<p className='text-lg mb-8 font-normal text-gray-500 lg:text-xl dark:text-gray-400'>
 						Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -24,7 +24,7 @@ const Header = () => {
 						View Market <em className='bi bi-arrow-right ml-2'></em>
 					</Link>
 				</div>
-				<div className='header_image bg-transparent sm:py-20 md:py-20'>
+				<div className='header_image bg-transparent py-20 md:px-20'>
 					<Image
 						src='/bg/trade.svg'
 						alt='CoinBoat | Header Image'

@@ -32,6 +32,7 @@
 		"react-redux": "^8.0.5",
 		"react-sparklines": "^1.7.0",
 		"react-toastify": "^9.1.1",
+		"swiper": "^9.2.2",
 		"swr": "^2.0.0"
 	},
 	"devDependencies": {

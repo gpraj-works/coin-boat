@@ -1,62 +1,67 @@
 .apexcharts-tooltip {
-    flex-direction: row !important;
+	flex-direction: row !important;
 }
 
 .apexcharts-tooltip-title {
-    background-color: #fff !important;
+	background-color: #fff !important;
 }
 
 .loader {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: block;
-    margin: 15px auto;
-    position: relative;
-    color: #FFF;
-    box-sizing: border-box;
-    animation: animloader 2s linear infinite;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	display: block;
+	margin: 10px auto;
+	position: relative;
+	box-sizing: border-box;
+	animation: animloader 2s linear infinite;
+	@apply text-primary;
 }
 
 @keyframes animloader {
-    0% {
-        box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
-    }
+	0% {
+		box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
+	}
 
-    25% {
-        box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 2px;
-    }
+	25% {
+		box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 2px;
+	}
 
-    50% {
-        box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 2px, -38px 0 0 -2px;
-    }
+	50% {
+		box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 2px, -38px 0 0 -2px;
+	}
 
-    75% {
-        box-shadow: 14px 0 0 2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
-    }
+	75% {
+		box-shadow: 14px 0 0 2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
+	}
 
-    100% {
-        box-shadow: 14px 0 0 -2px, 38px 0 0 2px, -14px 0 0 -2px, -38px 0 0 -2px;
-    }
+	100% {
+		box-shadow: 14px 0 0 -2px, 38px 0 0 2px, -14px 0 0 -2px, -38px 0 0 -2px;
+	}
 }
 
 .wave-run {
-    display: block;
-    background: url(/bg/image2.png) repeat-y;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: wave 80s linear infinite;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
+	display: block;
+	background: url(/bg/image2.png) repeat-y;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: wave 80s linear infinite;
+	transform: translate3d(0, 0, 0);
+	backface-visibility: hidden;
 }
 
 @keyframes wave {
-    0% {
-        background-position: 0% 50%;
-    }
+	0% {
+		background-position: 0% 50%;
+	}
 
-    100% {
-        background-position: 100% 50%;
-    }
+	100% {
+		background-position: 100% 50%;
+	}
+}
+
+.swiper-pagination {
+	top: 12px !important;
+	margin-left: -25px !important;
 }

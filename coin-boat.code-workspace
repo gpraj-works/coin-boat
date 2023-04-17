@@ -5,6 +5,14 @@
 		}
 	],
 	"settings": {
-		"cSpell.words": ["Kucoin", "rapidapi", "SENDGRID", "toastify"]
+		"cSpell.words": [
+			"histoday",
+			"Kucoin",
+			"mktcapfull",
+			"rapidapi",
+			"SENDGRID",
+			"Swiper",
+			"toastify"
+		]
 	}
 }

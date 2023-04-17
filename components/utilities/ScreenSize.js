@@ -7,7 +7,7 @@ export const ScreenWidth = () => {
 		if (typeof window !== 'undefined') {
 			setWindowWidth(window.screen.availWidth);
 		}
-	}, [setWindowWidth]);
+	}, []);
 
 	if (windowWidth <= 320) {
 		return { unit: '2xs', value: 320 };

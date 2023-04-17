@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Table, Watchlist } from '@/components/index';
+import { Table } from '@/components/index';
 import { GetCrypto } from '@/services/crypto.api';
 import HandleWatchlist from '@/services/handle.watchlist';
 import Link from 'next/link';
@@ -8,23 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { updateCurrency } from 'services/crypto.utils';
 import { HoldTable } from '../layouts/placeholder/HoldExplore';
-
-const TableHolder = ({ childProps, parentProps }) => {
-	return (
-		<div role='status' className={`animate-pulse ${parentProps}`}>
-			<div
-				className={`h-4 bg-gray-300 rounded-full dark:bg-gray-600 max-w-[75%] my-2.5 ${childProps}`}
-			></div>
-			<div
-				className={`h-3 my-1.5 bg-gray-300 rounded-full dark:bg-gray-600 max-w-[50%] ${childProps}`}
-			></div>
-			<div
-				className={`h-3 my-1.5 bg-gray-300 rounded-full dark:bg-gray-600 max-w-[25%] ${childProps}`}
-			></div>
-			<span className='sr-only'>Loading...</span>
-		</div>
-	);
-};
+import GetList from './listing/watchlist/GetList';
 
 const ExploreTable = () => {
 	const Crypto = new GetCrypto();
@@ -104,53 +88,66 @@ const ExploreTable = () => {
 		);
 	};
 
+	const OpenModal = () => {
+		return (
+			<>
+				<button
+					className='bg-white hover:bg-primary dark:bg-slate-600 hover:text-white shadow-md rounded-full mx-1.5 px-2.5 py-1.5'
+					onClick={() => setModal('asset')}
+				>
+					<em className='bi bi-search'></em>
+				</button>
+				<button
+					className='bg-white hover:bg-primary dark:bg-slate-600 hover:text-white shadow-md rounded-full mx-1.5 px-4 py-1.5 uppercase'
+					onClick={() => setModal('currency')}
+				>
+					{!cryptoFetching && defaultCurrency.symbol}
+					<em className='bi bi-chevron-down ml-1'></em>
+				</button>
+			</>
+		);
+	};
+
 	return (
 		<>
 			<div className='my-5 mx-1 md:flex md:justify-between justify-center md:flex-row'>
-				<div className='flex flex-wrap items-center'>
-					<TabButtons title='watchlist' icon='star' />
-					<TabButtons title='cryptocurrency' />
-					<TabButtons title='defi' />
-					<TabButtons title='dex' />
-					<TabButtons title='exchange' />
-					<TabButtons title='metaverse' />
-					<TabButtons title='nft' />
-					<TabButtons title='staking' />
-					<TabButtons title='stablecoin' />
-					<div>
-						<button
-							className='bg-white hover:bg-primary dark:bg-slate-600 hover:text-white shadow-md rounded-full mx-1.5 px-2.5 py-1.5'
-							onClick={() => setModal('asset')}
-						>
-							<em className='bi bi-search'></em>
-						</button>
-						<button
-							className='bg-white hover:bg-primary dark:bg-slate-600 hover:text-white shadow-md rounded-full mx-1.5 px-4 py-1.5 uppercase'
-							onClick={() => setModal('currency')}
-						>
-							{!cryptoFetching && defaultCurrency.symbol}
-							<em className='bi bi-chevron-down ml-1'></em>
-						</button>
+				<div className='md:flex md:items-center md:justify-between md:w-full'>
+					<div className='flex flex-wrap items-center'>
+						<TabButtons title='watchlist' icon='star' />
+						<TabButtons title='cryptocurrency' />
+						<TabButtons title='defi' />
+						<TabButtons title='dex' />
+						<TabButtons title='exchange' />
+						<TabButtons title='metaverse' />
+						<TabButtons title='nft' />
+						<TabButtons title='staking' />
+						<TabButtons title='stablecoin' />
+						<div className='md:hidden flex'>
+							<OpenModal />
+						</div>
+					</div>
+					<div className='md:block hidden'>
+						<OpenModal />
 					</div>
 				</div>
 			</div>
 			<div className='container-fluid my-1'>
 				{!cryptoFetching ? (
 					openTab === 'watchlist' ? (
-						<Watchlist
+						<GetList
 							currencyType={defaultCurrency.symbol}
-							currencyId={defaultCurrency.id}
 							loggedIn={loggedIn}
 							refSymbol={refSymbol !== undefined && refSymbol}
-							TableHolder={TableHolder}
 						/>
 					) : (
 						<Table
-							coinsProps={cryptosList?.data?.coins}
-							currencyType={defaultCurrency.symbol}
-							currencyId={defaultCurrency.id}
-							loggedIn={loggedIn}
-							refSymbol={refSymbol !== undefined && refSymbol}
+							data={{
+								coinsProps: cryptosList?.data?.coins,
+								currencyType: defaultCurrency.symbol,
+								currencyId: defaultCurrency.id,
+								loggedIn,
+								refSymbol: refSymbol !== undefined && refSymbol,
+							}}
 						/>
 					)
 				) : (
@@ -247,13 +244,7 @@ const ExploreTable = () => {
 										))}
 									</>
 								) : (
-									<>
-										<TableHolder parentProps='py-3 px-4' />
-										<TableHolder parentProps='py-3 px-4' />
-										<TableHolder parentProps='py-3 px-4' />
-										<TableHolder parentProps='py-3 px-4' />
-										<TableHolder parentProps='py-3 px-4' />
-									</>
+									'loading'
 								)
 							) : !refAssetsFetching ? (
 								refAssets?.data?.coins.map((item, index) => (
@@ -272,13 +263,7 @@ const ExploreTable = () => {
 									</Link>
 								))
 							) : (
-								<>
-									<TableHolder parentProps='py-3 px-4' />
-									<TableHolder parentProps='py-3 px-4' />
-									<TableHolder parentProps='py-3 px-4' />
-									<TableHolder parentProps='py-3 px-4' />
-									<TableHolder parentProps='py-3 px-4' />
-								</>
+								'loading'
 							)}
 						</div>
 						<button

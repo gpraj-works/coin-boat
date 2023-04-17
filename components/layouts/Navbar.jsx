@@ -140,12 +140,17 @@ const Navbar = ({ classProps }) => {
 									/>
 								)
 							)}
-							<li className='mx-4 my-6 cursor-pointer hover:text-primary'>
-								<Link href=''>Get Start</Link>
-							</li>
-							<li className='mx-4 my-6 cursor-pointer hover:text-primary'>
-								<Link href=''>Login</Link>
-							</li>
+
+							{!loggedIn && (
+								<>
+									<li className='mx-4 my-6 cursor-pointer hover:text-primary'>
+										<Link href=''>Get Start</Link>
+									</li>
+									<li className='mx-4 my-6 cursor-pointer hover:text-primary'>
+										<Link href=''>Login</Link>
+									</li>
+								</>
+							)}
 						</ul>
 						<span
 							className='text-4xl absolute right-10 top-5 hover:rotate-90 z-20'

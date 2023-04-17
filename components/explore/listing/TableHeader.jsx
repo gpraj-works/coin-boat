@@ -23,14 +23,14 @@ const TableHeader = () => {
 	};
 
 	return (
-		<div className='grid grid-cols-10 items-center gap-1 w-full dark:bg-gray-700 bg-white shadow-sm py-2 sticky top-0 z-30'>
+		<div className='grid grid-cols-10 items-center gap-1 w-full dark:bg-gray-700 bg-white shadow-sm py-2 sticky top-0 z-30 mb-2'>
 			<div className='text-center'>
 				<h3>#</h3>
 			</div>
 			<div className='col-span-2'>
 				<h3>Name</h3>
 			</div>
-			<div className='text-right'>
+			<div className='text-right mr-1.5'>
 				<h3>Price</h3>
 			</div>
 			<div className='text-right'>
@@ -57,7 +57,10 @@ const TableHeader = () => {
 				<h3>24H Volume</h3>
 			</div>
 			<div className='text-center'>
-				<h3>Supply</h3>
+				<h3> Supply</h3>
+			</div>
+			<div className='text-left'>
+				<h3> View More</h3>
 			</div>
 		</div>
 	);

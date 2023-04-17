@@ -1,5 +1,6 @@
+import Banner from '@/components/explore/Banner';
+import { Explore, Footer, Navbar, Stats } from '@/components/index';
 import Head from 'next/head';
-import { Navbar, Stats, Explore, Footer } from '@/components/index';
 import { ToastContainer } from 'react-toastify';
 
 const ExploreCoins = () => {
@@ -13,8 +14,18 @@ const ExploreCoins = () => {
 			</Head>
 			<Stats />
 			<Navbar classProps='sticky' />
+			<div className='mx-3 my-8 text-center'>
+				<h1 className='mb-4 text-2xl font-extrabold leading-none text-gray-900 md:text-4xl lg:text-5xl dark:text-white'>
+					Discover cryptocurrency prices
+				</h1>
+				<p className='mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 dark:text-gray-400'>
+					The leading cryptocurrencies in the market based on <br />
+					their impressive market capitalization.
+				</p>
+			</div>
 			<Explore />
-			<Footer classProps='' />
+			<Banner />
+			<Footer />
 			<ToastContainer
 				autoClose={1500}
 				position='bottom-right'

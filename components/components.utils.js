@@ -130,4 +130,19 @@ const FindLink = ({ links }) => {
 	);
 };
 
-export { localeString, ToCurrency, FindLink, RequestOtp, GetScrollPosition };
+const TrimTitle = ({ string, length }) => {
+	if (string.length > length) {
+		return string.substr(0, length + 1) + '...';
+	} else {
+		return string;
+	}
+};
+
+export {
+	localeString,
+	ToCurrency,
+	FindLink,
+	RequestOtp,
+	GetScrollPosition,
+	TrimTitle,
+};

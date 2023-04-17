@@ -44,43 +44,45 @@ const ExploreStats = () => {
 				<div className='flex flex-wrap justify-center py-1.5'>
 					<p className='pr-1 py-0.5 capitalize text-[13px] dark:text-slate-400'>
 						Cryptos&nbsp;:&nbsp;
-						<span className='text-blue-700 dark:text-slate-200'>
+						<span className='text-blue-700 dark:text-slate-200 font-sans'>
 							{cryptoStats?.data?.totalCoins}
 						</span>
 					</p>
 					<p className='px-1 py-0.5 capitalize text-[13px] dark:text-slate-400'>
 						Exchanges&nbsp;:&nbsp;
-						<span className='text-blue-700 dark:text-slate-200'>
+						<span className='text-blue-700 dark:text-slate-200 font-sans'>
 							{cryptoStats?.data?.totalExchanges}
 						</span>
 					</p>
 					<p className='px-1 py-0.5 capitalize text-[13px] dark:text-slate-400'>
 						Markets&nbsp;:&nbsp;
-						<span className='text-blue-700 dark:text-slate-200'>
+						<span className='text-blue-700 dark:text-slate-200 font-sans'>
 							{cryptoStats?.data?.totalMarkets}
 						</span>
 					</p>
 					<p className='px-1 py-0.5 capitalize text-[13px] dark:text-slate-400'>
 						Market cap&nbsp;:&nbsp;
-						<span className='text-blue-700 dark:text-slate-200'>
+						<span className='text-blue-700 dark:text-slate-200 font-sans'>
 							<ToCurrency
 								price={cryptoStats?.data?.totalMarketCap}
 								type={defaultCurrency.symbol}
+								digits='0'
 							/>
 						</span>
 					</p>
 					<p className='px-1 py-0.5 capitalize text-[13px] dark:text-slate-400'>
 						24h Volume&nbsp;:&nbsp;
-						<span className='text-blue-700 dark:text-slate-200'>
+						<span className='text-blue-700 dark:text-slate-200 font-sans'>
 							<ToCurrency
 								price={cryptoStats?.data?.total24hVolume}
 								type={defaultCurrency.symbol}
+								digits='0'
 							/>
 						</span>
 					</p>
 					<p className='px-1 py-0.5 capitalize text-[13px] dark:text-slate-400'>
 						BTC Dominance&nbsp;:&nbsp;
-						<span className='text-blue-700 dark:text-slate-200'>
+						<span className='text-blue-700 dark:text-slate-200 font-sans'>
 							{(cryptoStats?.data?.btcDominance).toFixed(1) + '%'}
 						</span>
 					</p>
