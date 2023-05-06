@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { MakeChips } from '@/components/components.utils';
+import { MakeChips } from '@/components/utilities/Crypt';
 import { useRouter } from 'next/router';
 
 const Register = () => {

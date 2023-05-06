@@ -1,4 +1,4 @@
-import { EatChips, RequestOtp } from '@/components/components.utils';
+import { RequestOtp } from '@/components/components.utils';
 import dbConnect from '@/config/dbConnect';
 import OtpTemplate from '@/components/account/EmailTemplates/OTP';
 import jwt from 'jsonwebtoken';

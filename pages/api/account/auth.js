@@ -1,4 +1,4 @@
-import { EatChips } from '@/components/components.utils';
+import { EatChips } from '@/components/utilities/Crypt';
 const jwt = require('jsonwebtoken');
 
 const auth = async (req, res) => {
