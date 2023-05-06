@@ -29,10 +29,6 @@ p {
 @tailwind utilities;
 
 @layer utilities {
-	.heading {
-		font-family: 'IBM Plex Sans', sans-serif;
-		@apply tracking-wide font-medium;
-	}
 	.btn {
 		@apply px-6 py-2 rounded-full border;
 	}

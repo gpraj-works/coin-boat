@@ -8,20 +8,28 @@ import {
 } from '@/components/index';
 import { GetCrypto } from '@/services/crypto.api';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
-const AboutCoin = () => {
+const AboutCoin = ({ coinId }) => {
 	const Crypto = new GetCrypto();
-	const router = useRouter();
-	const coinId = router.query.coinId && router.query.coinId;
+	// const router = useRouter();
+	// const coinId = router.query.coinId && router.query.coinId;
 	const defaultCurrency = useSelector(
 		(state) => state.currencyUtils.defaultCurrency
 	);
-	const { data, isLoading } = Crypto.ById({
-		coinId,
+	const { data, isLoading, error } = Crypto.ById({
+		coinId: coinId,
 		refCurrency: defaultCurrency.id,
 	});
+
+	if (error) {
+		console.log(error.response.message);
+		if (error.response.status === 429) {
+			console.info('Limit exceeded');
+		}
+	}
+
 	const explore = !isLoading && data?.data?.coin;
 
 	return (
@@ -35,9 +43,9 @@ const AboutCoin = () => {
 			<Navbar />
 			{explore && (
 				<>
-					<div className='flex flex-col md:flex-row flex-1 md:mx-3 my-2'>
-						<main className='flex-1 md:order-1 w-full order-2'>
-							<div className='bg-white dark:bg-slate-700 shadow-sm rounded-md md:mr-1 py-5 px-4'>
+					<div className='flex flex-col md:flex-row flex-1 md:mx-3 my-3'>
+						<main className='flex-1 md:order-2 w-full order-2'>
+							<div className='bg-white dark:bg-slate-700 shadow-sm rounded-md md:ml-1 py-5 px-4'>
 								<TopBar explore={explore} defaultCurrency={defaultCurrency} />
 								<div className='w-full'>
 									<div className='p-3 mt-6'>
@@ -49,7 +57,7 @@ const AboutCoin = () => {
 								</div>
 							</div>
 						</main>
-						<aside className='bg-white dark:bg-slate-700 w-full md:w-80 shadow-sm rounded-md md:ml-1 px-4 py-5 md:order-2 order-1 md:sticky h-[730px] top-[7px] z-0'>
+						<aside className='bg-white dark:bg-slate-700 w-full md:w-72 shadow-sm rounded-md md:mr-2 px-4 py-5 md:order-1 order-1 md:sticky h-[730px] top-[7px] z-0'>
 							<CoinSidebar about={explore} defaultCurrency={defaultCurrency} />
 						</aside>
 					</div>
@@ -60,3 +68,13 @@ const AboutCoin = () => {
 };
 
 export default AboutCoin;
+
+export async function getServerSideProps(context) {
+	const id = context.query.coinId;
+
+	return {
+		props: {
+			coinId: id,
+		},
+	};
+}

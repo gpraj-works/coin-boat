@@ -1,7 +1,7 @@
 const nextConfig = {
 	reactStrictMode: true,
 	env: {
-		CRYPTO_API_KEY: '8548f5d8e2mshf480249a4d9efb3p101a89jsnf35e7d78351c',
+		CRYPTO_API_KEY: 'd80ce7a7d6msh1362a55e1f15970p142d96jsn5c43891d674b',
 		CRYPTO_API_HOST: process.env.CRYPTO_API_HOST,
 		CRYPTO_API_BASE: process.env.CRYPTO_API_BASE,
 		MONGO_DB_CONN:

@@ -1,11 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { FindLink } from '@/components/components.utils';
 import millify from 'millify';
-import { CoinChart } from '@/components/index';
 import ToSymbol from 'currency-symbol-map';
 import moment from 'moment';
 import useSWR from 'swr';
 import Link from 'next/link';
+import PriceDetails from './overview/PriceDetails';
+import MarketStats from './overview/MarketStats';
+import Historical from './overview/Historical';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -14,6 +16,8 @@ const CoinOverview = ({ about, defaultCurrency }) => {
 		`${process.env.NEWS_API_BASE}${about.name}&sortBy=publishedAt&apiKey=${process.env.NEWS_API_KEY}`,
 		fetcher
 	);
+
+	error && console.info(error);
 
 	const cryptoNews = data?.articles;
 
@@ -27,66 +31,15 @@ const CoinOverview = ({ about, defaultCurrency }) => {
 
 	return (
 		<>
-			<CoinChart price={about.price} uuid={about.uuid} />
+			<PriceDetails price={about.price} uuid={about.uuid} />
+			<MarketStats defaultCurrency={defaultCurrency} about={about} />
+			{/* PAID-ENDPOINT */}
+			{/* <Historical defaultCurrency={defaultCurrency} uuid={about.uuid} /> */}
 			<div className='p-2 rounded-lg dark:bg-slate-700' id='overview'>
 				<h3 className='text-2xl my-3 heading'>About</h3>
 				<p className='text-xl text-slate-700'>{about.description}</p>
 				<hr className='my-6' />
-				<h3 className='text-2xl mt-3 mb-1'>Market Stats</h3>
-				<div className='flex flex-wrap md:flex-row flex-col justify-between m-5'>
-					<div className='my-2'>
-						<h3 className='text-gray-600 dark:text-gray-400 uppercase'>
-							Market Cap
-						</h3>
-						<span className='font-bold tracking-wider'>
-							{ToSymbol(defaultCurrency.symbol) + millify(about.marketCap)}
-						</span>
-					</div>
-					<div className='my-2'>
-						<h3 className='text-gray-600 dark:text-gray-400 uppercase'>
-							volume (24h)
-						</h3>
-						<span className='font-bold tracking-wider'>
-							{ToSymbol(defaultCurrency.symbol) +
-								millify(
-									Object.values(about)[Object.keys(about).indexOf('24hVolume')]
-								)}
-						</span>
-					</div>
-					<div className='my-2'>
-						<h3 className='text-gray-600 dark:text-gray-400 uppercase'>
-							circulating supply
-						</h3>
-						<span className='font-bold tracking-wider'>
-							{ToSymbol(defaultCurrency.symbol) +
-								millify(about.supply.circulating)}
-							&nbsp;
-							{defaultCurrency.symbol}
-						</span>
-					</div>
-					<div className='my-2'>
-						<h3 className='text-gray-600 dark:text-gray-400 uppercase'>
-							All time high
-						</h3>
-						<span className='font-bold tracking-wider'>
-							{ToSymbol(defaultCurrency.symbol) +
-								millify(about.allTimeHigh.price)}
-						</span>
-						<span className='ml-1'>
-							[ {moment(about.allTimeHigh.timestamp * 1000).format('DD-MMM-YY')}{' '}
-							]
-						</span>
-					</div>
-					<div className='my-2'>
-						<h3 className='text-gray-600 dark:text-gray-400 uppercase'>
-							fully diluted
-						</h3>
-						<span className='font-bold tracking-wider'>
-							{ToSymbol(defaultCurrency.symbol) +
-								millify(about.fullyDilutedMarketCap)}
-						</span>
-					</div>
-				</div>
+
 				<hr className='my-6' />
 				<FindLink links={about.links} />
 			</div>

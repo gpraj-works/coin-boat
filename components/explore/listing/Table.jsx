@@ -15,6 +15,22 @@ const Table = ({ data }) => {
 	let CoinData = data.coinsProps;
 	const smallScreen = screen.availWidth > 250 && screen.availWidth < 650;
 
+	const BeautifyChange = (data) => {
+		return (
+			<>
+				{data.change !== null ? (
+					data.change.includes('-') ? (
+						<span className='text-red-500'>{data.change}&nbsp;%</span>
+					) : (
+						<span className='text-green-600'>&nbsp;{data.change}&nbsp;%</span>
+					)
+				) : (
+					'0.00'
+				)}
+			</>
+		);
+	};
+
 	return (
 		<>
 			{smallScreen &&
@@ -76,17 +92,7 @@ const Table = ({ data }) => {
 								<ToCurrency price={coin.price} type={data.currencyType} />
 							</div>
 							<div className='change text-right col-auto'>
-								{coin.change !== null ? (
-									coin.change.includes('-') ? (
-										<span className='text-red-500'>{coin.change}&nbsp;%</span>
-									) : (
-										<span className='text-green-600'>
-											&nbsp;{coin.change}&nbsp;%
-										</span>
-									)
-								) : (
-									'0.00'
-								)}
+								{BeautifyChange(coin)}
 							</div>
 							<div className='chart pl-6 col-auto hidden md:block'>
 								{coin.change !== null ? (

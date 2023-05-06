@@ -62,6 +62,6 @@
 }
 
 .swiper-pagination {
-	top: 12px !important;
-	margin-left: -25px !important;
+	bottom: 4px !important;
+	left: -170px !important;
 }

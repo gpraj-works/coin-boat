@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { updateCurrency } from 'services/crypto.utils';
 import PriceCalculator from '../PriceCalculator';
 import { GetCrypto } from '@/services/crypto.api';
+import Menu from './Menu';
 
 const CoinSidebar = ({ about, defaultCurrency }) => {
 	const Crypto = new GetCrypto();
@@ -20,12 +21,6 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 	});
 
 	const [modal, setModal] = useState(false);
-
-	const { data: cryptoStats, isLoading: cryptoStatsFetching } = Crypto.Stats({
-		refCurrency: defaultCurrency.id,
-	});
-
-	const newestCoins = cryptoStats?.data?.newestCoins;
 
 	return (
 		<>
@@ -51,77 +46,17 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 				</button>
 			</div>
 			<hr className='mt-5 mb-2' />
-			<div className='px-2'>
-				<Link href='#' className='inline-flex items-center m-2.5 text-md'>
-					<em className='bi bi-box-arrow-up-right mr-3'></em>
-					Total Exchanges
-					<span className='inline-flex items-center justify-center ml-2 px-2 py-0.5 text-xs font-semibold text-blue-800 bg-blue-200 rounded-xl'>
-						{about.numberOfExchanges}
-					</span>
-				</Link>
-				<Link href='#' className='inline-flex items-center m-2.5 text-md'>
-					<em className='bi bi-box-arrow-up-right mr-3'></em>
-					Total Markets
-					<span className='inline-flex items-center justify-center ml-2 px-2 py-0.5 text-xs font-semibold text-blue-800 bg-blue-200 rounded-xl'>
-						{about.numberOfMarkets}
-					</span>
-				</Link>
-			</div>
-			<hr className='my-2' />
-			<div className='mb-3'>
-				<h3 className='text-2xl my-4 ml-1 heading uppercase'>Newest coins</h3>
-				{!cryptoStatsFetching &&
-					newestCoins.map((item, index) => (
-						<Link
-							href={item.coinrankingUrl}
-							key={index}
-							className='flex items-center m-3'
-						>
-							<img src={item.iconUrl} alt={item.name} className='w-[8%]' />
-							&nbsp;{item.name}
-						</Link>
-					))}
-			</div>
-			<div className='px-1 flex flex-col items-start'>
-				<PriceCalculator
-					currencySymbol={defaultCurrency.symbol}
-					coinSymbol={about.symbol}
-				/>
-			</div>
-			<hr className='my-4' />
 
-			<div className='mb-6'>
-				<h3 className='text-2xl mt-4 mb-3 ml-1 heading uppercase'>
-					Quick links
-				</h3>
-				<div className='px-2 flex flex-col'>
-					<Link
-						href='#'
-						className='inline-flex items-center mx-2.5 my-1.5 text-md'
-					>
-						<em className='bi bi-box-arrow-up-left mr-3'></em>
-						Go to Home
-					</Link>
-					<Link
-						href='#'
-						className='inline-flex items-center mx-2.5 my-1.5 text-md'
-					>
-						<em className='bi bi-box-arrow-up-left mr-3'></em>
-						Explore Coins
-					</Link>
-					<Link
-						href='#'
-						className='inline-flex items-center mx-2.5 my-1.5 text-md'
-					>
-						<em className='bi bi-box-arrow-up-left mr-3'></em>
-						Support Center
-					</Link>
-				</div>
-			</div>
+			<Menu
+				numberOfExchanges={about.numberOfExchanges}
+				numberOfMarkets={about.numberOfMarkets}
+				symbol={about.symbol}
+			/>
+
 			{modal && (
-				<div className='fixed bg-black bg-opacity-20 w-screen h-screen z-20 top-0 right-0 flex justify-end'>
-					<div className='bg-white h-screen w-96 px-6 py-6 relative'>
-						<div className='relative'>
+				<div className='fixed bg-black bg-opacity-20 backdrop-blur-sm w-screen h-screen z-20 top-0 left-0 flex justify-center items-center'>
+					<div className='bg-white md:h-5/6 md:w-8/12 w-screen h-screen px-10 py-6 relative rounded-2xl'>
+						<div className='relative mt-3'>
 							<div className='absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none'>
 								<em className='bi bi-search'></em>
 							</div>
@@ -143,7 +78,7 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 								? refCurrencies?.data?.currencies.map((item, index) => (
 										<button
 											key={index}
-											className=' text-slate-600 py-2 px-4 w-full text-left outline-none hover:bg-slate-100'
+											className=' text-slate-600 py-2 px-4 w-full text-left outline-none hover:bg-slate-100 rounded-md'
 											onClick={() => {
 												setModal(false);
 												dispatch(
@@ -159,7 +94,7 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 										<Link
 											href={`/explore/${item.uuid}`}
 											key={index}
-											className=' text-slate-600 py-2 px-4 w-full text-left outline-none hover:bg-slate-100 flex'
+											className=' text-slate-600 py-2 px-4 w-full text-left outline-none hover:bg-slate-100 flex rounded-full'
 										>
 											<img
 												src={item.iconUrl}

@@ -1,10 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { ToCurrency } from '@/components/components.utils';
+import millify from 'millify';
 
 const TopBar = ({ explore, defaultCurrency }) => {
 	const change = explore.change;
 	const price = explore.price;
+
+	const BeautifyChange = (data) => {
+		return (
+			<>
+				{data !== null ? (
+					data.includes('-') ? (
+						<span className='text-red-500'>{data}&nbsp;%</span>
+					) : (
+						<span className='text-green-600'>&nbsp;{data}&nbsp;%</span>
+					)
+				) : (
+					'0.00'
+				)}
+			</>
+		);
+	};
 
 	return (
 		<>
@@ -24,19 +41,7 @@ const TopBar = ({ explore, defaultCurrency }) => {
 							type={defaultCurrency.symbol}
 							digits='3'
 						/>
-						<span className='ml-3'>
-							{change.includes('-') ? (
-								<span className='text-danger'>
-									{change}
-									<em className='bi bi-arrow-down'></em>
-								</span>
-							) : (
-								<span className='text-green-400'>
-									{change}
-									<em className='bi bi-arrow-up'></em>
-								</span>
-							)}
-						</span>
+						<span className='ml-3'>{BeautifyChange(change)}</span>
 					</h3>
 				</div>
 			</div>
