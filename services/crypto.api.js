@@ -78,22 +78,18 @@ export class GetCrypto extends Component {
 		return CoinRanking(url);
 	}
 
-	/* PAID-ENDPOINT */
+	History24h({ refSymbol, refCurrency }) {
+		const url = `${this.state.baseUrl.cryptoCompare}/histohour?fsym=${refSymbol}&tsym=${refCurrency}&limit=24&aggregate=1&e=CCCAGG`;
+		return CryptoCompare(url);
+	}
 
-	// HighLow24H({ coinId, refCurrency }) {
-	// 	const url = `${this.state.baseUrl.coinRanking}/coin/${coinId}/history?referenceCurrencyUuid=${refCurrency}&timePeriod=24h`;
-	// 	return CoinRanking(url);
-	// }
+	Historical({ limit, refSymbol, refCurrency }) {
+		const url = `${this.state.baseUrl.cryptoCompare}/histoday?fsym=${refSymbol}&tsym=${refCurrency}&limit=7&aggregate=1&e=CCCAGG`;
+		return CryptoCompare(url);
+	}
 
-	/* PAID-ENDPOINT */
-
-	// Historical({ coinId, refCurrency }) {
-	// 	const url = `${this.state.baseUrl.coinRanking}/coin/${coinId}/ohlc?referenceCurrencyUuid=${refCurrency}&interval=day`;
-	// 	return CoinRanking(url);
-	// }
-
-	History24h({ limit, refCurrency }) {
-		const url = `${this.state.baseUrl.cryptoCompare}/histohour?fsym=BTC&tsym=${refCurrency}&limit=24&aggregate=1&e=CCCAGG`;
+	AssetBySymbol({ refSymbol }) {
+		const url = `https://data-api.cryptocompare.com/asset/v1/data/by/symbol?asset_symbol=${refSymbol}`;
 		return CryptoCompare(url);
 	}
 }

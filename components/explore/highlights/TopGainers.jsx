@@ -29,22 +29,27 @@ const TopGainers = ({ limit }) => {
 
 	return (
 		<>
-			<div className='flex justify-between items-center py-2 px-4 border-b bg-white'>
+			<div className='flex justify-between items-center py-2 mb-2 px-4 border-b'>
 				<h1 className=''>Top Gainers</h1>
 				<div className='flex items-center'>
 					<FilterChart title='1h' time='1h' />
 					<FilterChart title='1d' time='24h' />
 					<FilterChart title='1w' time='7d' />
 				</div>
+				<Link
+					href='/highlights/gainers'
+					target='_blank'
+					className='text-sm text-primary'
+				>
+					<em className='bi bi-box-arrow-up-right'></em>
+				</Link>
 			</div>
 
 			{Gainers &&
 				Gainers.map((gainer, index) => (
 					<div
 						key={index}
-						className={`grid grid-cols-3 py-2 px-4 items-center hover:bg-slate-100 dark:hover:bg-slate-800 dark:border-gray-800 ${
-							index === 2 ? 'border-b-0' : 'border-b-[0.1px]'
-						}`}
+						className={`grid grid-cols-3 py-3 px-4 items-center hover:bg-slate-100 dark:hover:bg-slate-800 dark:border-gray-800`}
 					>
 						<Link
 							href={`/explore/${gainer.uuid}`}
@@ -73,15 +78,6 @@ const TopGainers = ({ limit }) => {
 						</div>
 					</div>
 				))}
-			<div className='pt-0.5 pb-1 text-right border-t bg-white'>
-				<Link
-					href='/highlights/gainers'
-					target='_blank'
-					className='mr-5 text-sm text-primary'
-				>
-					<em className='bi bi-box-arrow-up-right'></em>
-				</Link>
-			</div>
 		</>
 	);
 };

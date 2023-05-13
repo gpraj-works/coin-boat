@@ -53,7 +53,7 @@ const Menu = ({ numberOfExchanges, numberOfMarkets, symbol }) => {
 						<li>
 							<Link href='#' className='inline-flex items-center text-md my-1'>
 								<em className='bi bi-chevron-right mr-3'></em>
-								What is it?
+								Description
 							</Link>
 						</li>
 						<li>

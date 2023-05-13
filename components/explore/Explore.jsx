@@ -156,15 +156,12 @@ const ExploreTable = () => {
 			</div>
 
 			{!cryptoFetching && openTab !== 'watchlist' && (
-				<div className='text-center my-6'>
-					<p className='my-2 text-[12px] text-slate-700 font-sans'>
-						{page} / {Math.ceil(cryptosList?.data?.stats?.total / 50)}
-					</p>
-					<div className='flex justify-center items-center'>
+				<div className='my-10 px-10 py-4'>
+					<div className='flex justify-between items-center'>
 						{page < 2 ? (
 							<button
-								className={`rounded-l-full text-white px-5 py-1 mx-0.5 outline-none ${
-									page < 2 ? 'cursor-not-allowed bg-blue-300' : 'bg-blue-500'
+								className={`py-2 px-6 outline-none border rounded-md text-white ${
+									page < 2 ? 'cursor-not-allowed bg-slate-400' : 'bg-slate-500'
 								}`}
 								onClick={() => {
 									setPage(page > 1 && page - 1);
@@ -172,28 +169,36 @@ const ExploreTable = () => {
 								}}
 								disabled
 							>
-								Prev
+								<em className='bi bi-arrow-left mr-2'></em>
+								Previous page
 							</button>
 						) : (
 							<button
-								className={`rounded-l-full bg-primary text-white px-5 py-1 mx-0.5 outline-none}`}
+								className={`py-2 px-6 outline-none border rounded-md bg-slate-500 text-white`}
 								onClick={() => {
 									setPage(page > 1 && page - 1);
 									window.scrollTo(0, 0);
 								}}
 							>
-								Prev
+								<em className='bi bi-arrow-left mr-2'></em>
+								Previous page
 							</button>
 						)}
 
+						<p className='my-2 text-slate-700'>
+							{page} page from {Math.ceil(cryptosList?.data?.stats?.total / 50)}
+							&nbsp;pages
+						</p>
+
 						<button
-							className='bg-blue-500 rounded-r-full text-white px-5 py-1 mx-0.5 outline-none'
+							className='py-2 px-6 outline-none border rounded-md bg-slate-500 text-white'
 							onClick={() => {
 								setPage(page + 1);
 								window.scrollTo(0, 0);
 							}}
 						>
-							Next
+							Next page
+							<em className='bi bi-arrow-right ml-3'></em>
 						</button>
 					</div>
 				</div>

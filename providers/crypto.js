@@ -24,6 +24,6 @@ export const CryptoCompare = (url) => {
 	const apiKey =
 		'&api_key=954608c757c954c313e07c1afd191d26109f2c7a5c5048392ad5310110cd7cae';
 	return useSWR(url, (url) => fetcher(url + apiKey), {
-		refreshInterval: 30000,
+		refreshInterval: 10000,
 	});
 };

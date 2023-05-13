@@ -4,10 +4,6 @@ import TopVolumeBased from '@/components/explore/highlights/TopIn24hVolume';
 import TopInPrice from '@/components/explore/highlights/TopInPrice';
 import TopLosers from '@/components/explore/highlights/TopLosers';
 import { useSelector } from 'react-redux';
-import { Autoplay, Pagination } from 'swiper';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import { Swiper, SwiperSlide } from 'swiper/react';
 
 const Highlights = () => {
 	const defaultCurrency = useSelector(
@@ -15,70 +11,31 @@ const Highlights = () => {
 	);
 
 	return (
-		<div className='my-10'>
-			<div className='flex justify-center md:flex-row flex-col w-full'>
-				<div className='mx-2 md:mb-0 mb-4 w-[98%] md:w-[32%] shadow-slate-200 shadow-lg rounded-lg border'>
-					<Swiper
-						modules={[Pagination, Autoplay]}
-						pagination={{
-							clickable: true,
-						}}
-						autoplay={{
-							delay: 3500,
-							disableOnInteraction: true,
-						}}
-						grabCursor={true}
-						loop={true}
-						className='rounded-lg'
-					>
-						<SwiperSlide>
-							<TopGainers limit={3} />
-						</SwiperSlide>
-						<SwiperSlide>
-							<TopLosers limit={3} />
-						</SwiperSlide>
-					</Swiper>
+		<div className='my-10 py-10 bg-slate-100'>
+			<div className='mx-3 my-8 text-center'>
+				<h2 className='mb-4 text-2xl font-extrabold leading-none text-gray-900 md:text-3xl lg:text-4xl dark:text-white'>
+					Cryptocurrency Highlights
+				</h2>
+				<p className='mb-6 text-lg font-normal text-gray-500 sm:px-16 dark:text-gray-400'>
+					Exploring the dynamic world of cryptocurrencies <br /> Latest trends,
+					market updates, and future predictions.
+				</p>
+			</div>
+			<div className='flex justify-center md:flex-row flex-wrap flex-col w-full'>
+				<div className='md:w-[30%] w-full m-2 bg-white rounded-md shadow-md shadow-slate-200 p-2'>
+					<TopGainers limit={3} />
 				</div>
-				<div className='mx-2 md:mb-0 mb-4 w-[98%] md:w-[32%] shadow-slate-200 shadow-lg rounded-lg border'>
-					<Swiper
-						modules={[Pagination, Autoplay]}
-						pagination={{
-							clickable: true,
-						}}
-						autoplay={{
-							delay: 3500,
-							disableOnInteraction: true,
-						}}
-						grabCursor={true}
-						loop={true}
-						className='rounded-lg'
-					>
-						<SwiperSlide>
-							<TopVolumeBased limit={3} refCurrency={defaultCurrency} />
-						</SwiperSlide>
-						<SwiperSlide>
-							<TopInPrice limit={3} refCurrency={defaultCurrency} />
-						</SwiperSlide>
-					</Swiper>
+				<div className='md:w-[30%] w-full m-2 bg-white rounded-md shadow-md shadow-slate-200 p-2'>
+					<TopLosers limit={3} />
 				</div>
-				<div className='mx-2 md:mb-0 mb-4 w-[98%] md:w-[32%] shadow-slate-200 shadow-lg rounded-lg border'>
-					<Swiper
-						modules={[Pagination, Autoplay]}
-						pagination={{
-							clickable: true,
-						}}
-						autoplay={{
-							delay: 3500,
-							disableOnInteraction: true,
-						}}
-						grabCursor={true}
-						loop={true}
-						className='rounded-lg'
-					>
-						<SwiperSlide>
-							<Newest limit={3} />
-						</SwiperSlide>
-					</Swiper>
+				<div className='md:w-[30%] w-full m-2 bg-white rounded-md shadow-md shadow-slate-200 p-2'>
+					<TopVolumeBased limit={3} refCurrency={defaultCurrency} />
+				</div>
+				<div className='md:w-[30%] w-full m-2 bg-white rounded-md shadow-md shadow-slate-200 p-2'>
+					<TopInPrice limit={3} refCurrency={defaultCurrency} />
+				</div>
+				<div className='md:w-[30%] w-full m-2 bg-white rounded-md shadow-md shadow-slate-200 p-2'>
+					<Newest limit={3} />
 				</div>
 			</div>
 		</div>

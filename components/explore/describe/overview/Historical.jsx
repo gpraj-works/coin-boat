@@ -1,57 +1,89 @@
-import useSWR from 'swr';
-import axios from 'axios';
+import { GetCrypto } from '@/services/crypto.api';
+import moment from 'moment';
+import { ToCurrency } from '@/components/components.utils';
 
-const fetcher = async (url) => {
-	const response = await axios.get(url);
-	return response.data;
-};
+const Historical = ({ defaultCurrency, symbol }) => {
+	const Crypto = new GetCrypto();
 
-const Historical = () => {
-	const { data, error } = useSWR(
-		'https://min-api.cryptocompare.com/data/v2/histoday?fsym=BTC&tsym=USD&limit=7&aggregate=1&e=CCCAGG',
-		fetcher
-	);
+	const { data, isLoading, error } = Crypto.Historical({
+		limit: '',
+		refSymbol: symbol,
+		refCurrency: defaultCurrency && defaultCurrency.symbol,
+	});
 
-	if (error) return <div>Error loading data</div>;
-	if (!data) return <div>Loading data...</div>;
+	const prices = data && data.Data.Data;
 
-	const {
-		Data: { Data: prices },
-	} = data;
+	const sortedPrices = prices && prices.sort((a, b) => b.time - a.time);
 
-	const dateLabels = prices.map((p) =>
-		new Date(p.time * 1000).toLocaleDateString()
-	);
-	const openPrices = prices.map((p) => p.open);
-	const highPrices = prices.map((p) => p.high);
-	const lowPrices = prices.map((p) => p.low);
-	const closePrices = prices.map((p) => p.close);
+	const dateLabels =
+		sortedPrices &&
+		sortedPrices.map((p) => moment(p.time * 1000).format('MMM D, YYYY'));
+	const openPrices = sortedPrices && sortedPrices.map((p) => p.open);
+	const highPrices = sortedPrices && sortedPrices.map((p) => p.high);
+	const lowPrices = sortedPrices && sortedPrices.map((p) => p.low);
+	const closePrices = sortedPrices && sortedPrices.map((p) => p.close);
 
 	return (
 		<div>
-			<h2>Bitcoin Price History (Last 7 days)</h2>
-			<table>
-				<thead>
-					<tr>
-						<th>Date</th>
-						<th>Open</th>
-						<th>High</th>
-						<th>Low</th>
-						<th>Close</th>
-					</tr>
-				</thead>
-				<tbody>
-					{prices.map((p, i) => (
-						<tr key={p.time}>
-							<td>{dateLabels[i]}</td>
-							<td>{openPrices[i]}</td>
-							<td>{highPrices[i]}</td>
-							<td>{lowPrices[i]}</td>
-							<td>{closePrices[i]}</td>
+			<h3 className='text-2xl font-medium'>#Historical (Last 7 days)</h3>
+			<div className='relative overflow-x-auto mt-10'>
+				<table className='text-left w-full'>
+					<thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
+						<tr>
+							<th scope='col' className='px-6 py-3'>
+								Date
+							</th>
+							<th scope='col' className='px-6 py-3'>
+								Open
+							</th>
+							<th scope='col' className='px-6 py-3'>
+								High
+							</th>
+							<th scope='col' className='px-6 py-3'>
+								Low
+							</th>
+							<th scope='col' className='px-6 py-3'>
+								Close
+							</th>
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{prices &&
+							prices.map((p, i) => (
+								<tr
+									className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
+									key={p.time}
+								>
+									<td className='px-6 py-4'>{dateLabels[i]}</td>
+									<td className='px-6 py-4'>
+										<ToCurrency
+											price={openPrices[i]}
+											type={defaultCurrency.symbol}
+										/>
+									</td>
+									<td className='px-6 py-4'>
+										<ToCurrency
+											price={highPrices[i]}
+											type={defaultCurrency.symbol}
+										/>
+									</td>
+									<td className='px-6 py-4'>
+										<ToCurrency
+											price={lowPrices[i]}
+											type={defaultCurrency.symbol}
+										/>
+									</td>
+									<td className='px-6 py-4'>
+										<ToCurrency
+											price={closePrices[i]}
+											type={defaultCurrency.symbol}
+										/>
+									</td>
+								</tr>
+							))}
+					</tbody>
+				</table>
+			</div>
 		</div>
 	);
 };

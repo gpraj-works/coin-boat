@@ -11,17 +11,22 @@ const Newest = ({ limit }) => {
 
 	return (
 		<>
-			<div className='flex justify-between items-center py-2 px-4 border-b bg-white'>
+			<div className='flex justify-between items-center py-2 mb-2 px-4 border-b'>
 				<h1 className=''>Recently Added</h1>
+				<Link
+					href='/highlights/newest'
+					target='_blank'
+					className='text-sm text-primary'
+				>
+					<em className='bi bi-box-arrow-up-right'></em>
+				</Link>
 			</div>
 
 			{Newest &&
 				Newest.map((newer, index) => (
 					<div
 						key={index}
-						className={`grid grid-cols-3 py-2 px-4 items-center bg-slate-50 hover:bg-slate-100 dark:hover:bg-slate-800 dark:border-gray-800 ${
-							index === 2 ? ' border-b-0' : 'border-b-[0.1px]'
-						}`}
+						className={`grid grid-cols-3 py-3 px-4 items-center hover:bg-slate-100 dark:hover:bg-slate-800 dark:border-gray-800`}
 					>
 						<Link
 							href={`/explore/${newer.uuid}`}
@@ -47,15 +52,6 @@ const Newest = ({ limit }) => {
 						</div>
 					</div>
 				))}
-			<div className='pt-0.5 pb-1 text-right border-t bg-white'>
-				<Link
-					href='/highlights/newest'
-					target='_blank'
-					className='mr-5 text-sm text-primary'
-				>
-					<em className='bi bi-box-arrow-up-right'></em>
-				</Link>
-			</div>
 		</>
 	);
 };
