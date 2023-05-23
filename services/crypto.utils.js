@@ -9,6 +9,7 @@ const cryptoSlice = createSlice({
 			? persistedState
 			: { id: '6mUvpzCc2lFo', symbol: 'INR' },
 		changesFrom: null,
+		tabNames: { parent: 'overview', child: 'price_details' },
 	},
 	reducers: {
 		updateCurrency: (state, action) => {
@@ -19,8 +20,20 @@ const cryptoSlice = createSlice({
 		updateChangesFrom: (state, action) => {
 			state.changesFrom = action.payload;
 		},
+
+		updateTabChild: (state, action) => {
+			state.tabNames.child = action.payload;
+		},
+		updateTabParent: (state, action) => {
+			state.tabNames.parent = action.payload;
+		},
 	},
 });
 
-export const { updateCurrency, updateChangesFrom } = cryptoSlice.actions;
+export const {
+	updateCurrency,
+	updateChangesFrom,
+	updateTabChild,
+	updateTabParent,
+} = cryptoSlice.actions;
 export default cryptoSlice;

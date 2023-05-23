@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Table } from '@/components/index';
+import Table from './listing/Table';
 import { GetCrypto } from '@/services/crypto.api';
 import HandleWatchlist from '@/services/handle.watchlist';
 import Link from 'next/link';
@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { updateCurrency } from 'services/crypto.utils';
-import { HoldTable } from '../layouts/placeholder/HoldExplore';
+import { HoldTable } from '@/components/layouts/placeholder/HoldExplore';
 import GetList from './listing/watchlist/GetList';
 
 const ExploreTable = () => {
@@ -205,9 +205,9 @@ const ExploreTable = () => {
 			)}
 
 			{modal && (
-				<div className='fixed bg-black bg-opacity-20 w-screen h-screen z-30 top-0 right-0 flex justify-end'>
-					<div className='bg-white h-screen w-96 px-6 py-6 relative'>
-						<div className='relative'>
+				<div className='fixed bg-black bg-opacity-20 backdrop-blur-sm w-screen h-screen z-40 top-0 left-0 flex justify-center items-center'>
+					<div className='bg-white md:h-5/6 md:w-6/12 w-screen h-screen px-10 py-6 relative rounded-2xl'>
+						<div className='relative mt-3'>
 							<div className='absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none'>
 								<em className='bi bi-search'></em>
 							</div>
@@ -225,51 +225,37 @@ const ExploreTable = () => {
 							/>
 						</div>
 						<div className='flex flex-col my-6'>
-							{modal === 'currency' ? (
-								!refCurrencyFetching ? (
-									<>
-										{refCurrencies?.data?.currencies.map((item, index) => (
-											<button
-												key={index}
-												className=' text-slate-600 py-2 px-4 w-full text-left outline-none hover:bg-slate-100'
-												onClick={() => {
-													setModal(false);
-													setCurrency(item.uuid);
-													dispatch(
-														updateCurrency({
-															id: item.uuid,
-															symbol: item.symbol,
-														})
-													);
-												}}
-											>
-												<span className='text-black mr-2'>{item.symbol}</span>
-												{item.name}
-											</button>
-										))}
-									</>
-								) : (
-									'loading'
-								)
-							) : !refAssetsFetching ? (
-								refAssets?.data?.coins.map((item, index) => (
-									<Link
-										href='#'
-										key={index}
-										className=' text-slate-600 py-2 px-4 w-full text-left outline-none hover:bg-slate-100 flex'
-									>
-										<img
-											src={item.iconUrl}
-											alt={item.name}
-											className='mt-0.5 w-5 h-5'
-										/>
-										<span className='text-black mx-2'>{item.symbol}</span>
-										{item.name}
-									</Link>
-								))
-							) : (
-								'loading'
-							)}
+							{modal === 'currency'
+								? refCurrencies?.data?.currencies.map((item, index) => (
+										<button
+											key={index}
+											className=' text-slate-600 py-2 px-4 w-full text-left outline-none hover:bg-slate-100 rounded-md'
+											onClick={() => {
+												setModal(false);
+												dispatch(
+													updateCurrency({ id: item.uuid, symbol: item.symbol })
+												);
+											}}
+										>
+											<span className='text-black mr-2'>{item.symbol}</span>
+											{item.name}
+										</button>
+								  ))
+								: refAssets?.data?.coins.map((item, index) => (
+										<Link
+											href={`/explore/${item.uuid}`}
+											key={index}
+											className=' text-slate-600 py-2 px-4 w-full text-left outline-none hover:bg-slate-100 flex rounded-full'
+										>
+											<img
+												src={item.iconUrl}
+												alt={item.name}
+												className='mt-0.5 w-5 h-5'
+											/>
+											<span className='text-black mx-2'>{item.symbol}</span>
+											{item.name}
+										</Link>
+								  ))}
 						</div>
 						<button
 							className='bg-primary bg-opacity-40 hover:bg-primary text-white px-3 py-2 rounded-full absolute bottom-5 right-5'

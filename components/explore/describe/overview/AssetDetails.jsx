@@ -61,32 +61,38 @@ const AssetDetails = ({ defaultCurrency, symbol }) => {
 										</td>
 									</tr>
 								)}
-								<tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
-									<th
-										scope='row'
-										className='px-6 py-4 font-medium text-gray-600 whitespace-nowrap dark:text-white'
-									>
-										Consensus Mechanisms
-									</th>
-									<td className='px-6 py-4 text-right'>
-										{asset.CONSENSUS_MECHANISMS.map((item, index) => (
-											<span key={index} className='ml-2'>
-												{item.NAME}
-											</span>
-										))}
-									</td>
-								</tr>
-								<tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
-									<th
-										scope='row'
-										className='px-6 py-4 font-medium text-gray-600 whitespace-nowrap dark:text-white'
-									>
-										Last Block Number
-									</th>
-									<td className='px-6 py-4 text-right'>
-										{localeString(asset.LAST_BLOCK_NUMBER)}
-									</td>
-								</tr>
+
+								{asset.CONSENSUS_MECHANISMS && (
+									<tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
+										<th
+											scope='row'
+											className='px-6 py-4 font-medium text-gray-600 whitespace-nowrap dark:text-white'
+										>
+											Consensus Mechanisms
+										</th>
+										<td className='px-6 py-4 text-right'>
+											{asset.CONSENSUS_MECHANISMS.map((item, index) => (
+												<span key={index} className='ml-2'>
+													{item.NAME}
+												</span>
+											))}
+										</td>
+									</tr>
+								)}
+
+								{asset.LAST_BLOCK_NUMBER && (
+									<tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
+										<th
+											scope='row'
+											className='px-6 py-4 font-medium text-gray-600 whitespace-nowrap dark:text-white'
+										>
+											Last Block Number
+										</th>
+										<td className='px-6 py-4 text-right'>
+											{localeString(asset.LAST_BLOCK_NUMBER)}
+										</td>
+									</tr>
+								)}
 								{asset.LAST_BLOCK_TIMESTAMP && (
 									<tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
 										<th

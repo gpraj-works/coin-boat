@@ -2,7 +2,7 @@ import { GetCrypto } from '@/services/crypto.api';
 import { ToCurrency } from 'components/components.utils';
 import { useTheme } from 'next-themes';
 import { useSelector } from 'react-redux';
-import { HoldTable } from '../layouts/placeholder/HoldExplore';
+import { HoldTable } from '@/components/layouts/placeholder/HoldExplore';
 
 const ExploreStats = () => {
 	const Crypto = new GetCrypto();

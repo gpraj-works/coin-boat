@@ -92,4 +92,19 @@ export class GetCrypto extends Component {
 		const url = `https://data-api.cryptocompare.com/asset/v1/data/by/symbol?asset_symbol=${refSymbol}`;
 		return CryptoCompare(url);
 	}
+
+	Markets({ refSymbol, refCurrency, limit }) {
+		const url = `https://min-api.cryptocompare.com/data/top/exchanges/full?fsym=${refSymbol}&tsym=${refCurrency}&limit=${limit}`;
+		return CryptoCompare(url);
+	}
+
+	Exchanges({ refSymbol }) {
+		const url = `https://min-api.cryptocompare.com/data/exchanges/general?tsym=${refSymbol}`;
+		return CryptoCompare(url);
+	}
+
+	NewsArticles({ category }) {
+		const url = `https://min-api.cryptocompare.com/data/v2/news/?lang=EN&sort=publishedAt&page=1&categories=${category}`;
+		return CryptoCompare(url);
+	}
 }

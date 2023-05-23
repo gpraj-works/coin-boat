@@ -26,7 +26,7 @@ const Historical = ({ defaultCurrency, symbol }) => {
 	return (
 		<div>
 			<h3 className='text-2xl font-medium'>#Historical (Last 7 days)</h3>
-			<div className='relative overflow-x-auto mt-10'>
+			<div className='relative overflow-x-auto my-10'>
 				<table className='text-left w-full'>
 					<thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
 						<tr>

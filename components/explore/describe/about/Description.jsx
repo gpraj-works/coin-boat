@@ -14,10 +14,10 @@ const Description = ({ defaultCurrency, symbol, githubLink }) => {
 	});
 
 	const asset = data && data.Data;
-	
+
 	const Resources = ({ whitepaper, website, explorers }) => {
 		return (
-			<div className='mt-10'>
+			<>
 				<h3 className='text-2xl font-medium'>#Resources</h3>
 				<div className='mt-8 flex items-center'>
 					<Link href={whitepaper} target='_blank' className='mr-8'>
@@ -52,16 +52,18 @@ const Description = ({ defaultCurrency, symbol, githubLink }) => {
 							</ul>
 						)}
 					</div>
-					<Link
-						href={githubLink.url}
-						target='_blank'
-						className='mr-8 capitalize'
-					>
-						<em className='bi bi-code-slash text-lg mr-1.5'></em>
-						Source code
-					</Link>
+					{githubLink && (
+						<Link
+							href={githubLink.url}
+							target='_blank'
+							className='mr-8 capitalize'
+						>
+							<em className='bi bi-code-slash text-lg mr-1.5'></em>
+							Source code
+						</Link>
+					)}
 				</div>
-			</div>
+			</>
 		);
 	};
 

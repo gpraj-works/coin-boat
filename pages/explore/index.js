@@ -1,7 +1,9 @@
 import Highlights from '@/components/explore/Highlights';
-import { Explore, Footer, Navbar, Stats } from '@/components/index';
+import Stats from '@/components/explore/Stats';
+import Navbar from '@/components/layouts/Navbar';
+import Footer from '@/components/layouts/Footer';
+import ExploreTable from '@/components/explore/Explore';
 import Head from 'next/head';
-import { ToastContainer } from 'react-toastify';
 
 const ExploreCoins = () => {
 	return (
@@ -20,18 +22,13 @@ const ExploreCoins = () => {
 				</h1>
 				<p className='mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 dark:text-gray-400'>
 					The leading cryptocurrencies in the market based on <br />
-					their impressive <span className='text-primary'>market capitalization</span>.
+					their impressive{' '}
+					<span className='text-primary'>market capitalization</span>.
 				</p>
 			</div>
-			<Explore />
+			<ExploreTable />
 			<Highlights />
 			<Footer />
-			<ToastContainer
-				autoClose={1500}
-				position='bottom-right'
-				// theme={theme}
-				limit={3}
-			/>
 		</>
 	);
 };

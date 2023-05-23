@@ -45,6 +45,12 @@ const GetScrollPosition = () => {
 	return scrollPosition;
 };
 
+const ScrollTo = (position) => {
+	useEffect(() => {
+		window.scrollTo(0, position);
+	}, [position]);
+};
+
 //Guess social media from link
 
 const FindLink = ({ links }) => {
@@ -105,4 +111,5 @@ export {
 	RequestOtp,
 	GetScrollPosition,
 	TrimTitle,
+	ScrollTo,
 };

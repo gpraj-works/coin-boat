@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import { Header } from '../components';
+import Header from '@/components/layouts/Header';
 
-export default function Home() {
+const Homepage = () => {
 	return (
 		<>
 			<Head>
@@ -12,4 +12,6 @@ export default function Home() {
 			<Header />
 		</>
 	);
-}
+};
+
+export default Homepage;

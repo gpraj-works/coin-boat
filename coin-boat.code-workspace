@@ -13,7 +13,8 @@
 			"rapidapi",
 			"SENDGRID",
 			"Swiper",
-			"toastify"
+			"toastify",
+			"TOTALVOLUME"
 		]
 	}
 }

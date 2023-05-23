@@ -1,7 +1,6 @@
-import { Navbar } from '@/components/index';
+import Navbar from '@/components/layouts/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
-import { GetScrollPosition } from '../components.utils';
 
 const Header = () => {
 	return (
@@ -20,7 +19,10 @@ const Header = () => {
 						industry. Lorem Ipsum has been the industry standard dummy text ever
 						since the 1500s,
 					</p>
-					<Link href='#' className='py-4 px-8 hover:bg-blue-600 bg-primary rounded-full text-white'>
+					<Link
+						href='#'
+						className='py-4 px-8 hover:bg-blue-600 bg-primary rounded-full text-white'
+					>
 						View Market <em className='bi bi-arrow-right ml-2'></em>
 					</Link>
 				</div>
@@ -37,5 +39,4 @@ const Header = () => {
 		</div>
 	);
 };
-
 export default Header;

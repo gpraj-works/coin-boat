@@ -6,10 +6,13 @@ import { updateCurrency } from 'services/crypto.utils';
 import PriceCalculator from '../PriceCalculator';
 import { GetCrypto } from '@/services/crypto.api';
 import Menu from './Menu';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 const CoinSidebar = ({ about, defaultCurrency }) => {
 	const Crypto = new GetCrypto();
 	const dispatch = useDispatch();
+	const router = useRouter();
 	const [refCurrency, setRefCurrency] = useState(defaultCurrency.symbol);
 
 	const { data: refCurrencies, isLoading: refCurrencyFetching } =
@@ -21,6 +24,14 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 	});
 
 	const [modal, setModal] = useState(false);
+
+	const CopyToClipboard = () => {
+		let copyText = document.getElementById('shareLink');
+		copyText.select();
+		copyText.setSelectionRange(0, 99999);
+		navigator.clipboard.writeText(copyText.value);
+		toast.success('Link is copied. Ready to share!');
+	};
 
 	return (
 		<>
@@ -38,10 +49,23 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 				>
 					<em className='bi bi-search'></em>
 				</button>
-				<button className='bg-white hover:bg-primary dark:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'>
+				<button
+					className='bg-white hover:bg-primary dark:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'
+					onClick={() => toast.warning('Login is required!')}
+				>
 					<em className='bi bi-star'></em>
 				</button>
-				<button className='bg-white hover:bg-primary dark:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'>
+				<input
+					type='text'
+					id='shareLink'
+					value={`https://coinboat.vercel.app/explore/${router.query.coinId}`}
+					hidden
+					disabled
+				/>
+				<button
+					className='bg-white hover:bg-primary dark:bg-primary hover:text-white shadow-md rounded-full mx-2 px-2.5 py-1.5'
+					onClick={CopyToClipboard}
+				>
 					<em className='bi bi-share'></em>
 				</button>
 			</div>
@@ -55,7 +79,7 @@ const CoinSidebar = ({ about, defaultCurrency }) => {
 
 			{modal && (
 				<div className='fixed bg-black bg-opacity-20 backdrop-blur-sm w-screen h-screen z-20 top-0 left-0 flex justify-center items-center'>
-					<div className='bg-white md:h-5/6 md:w-8/12 w-screen h-screen px-10 py-6 relative rounded-2xl'>
+					<div className='bg-white md:h-5/6 md:w-6/12 w-screen h-screen px-10 py-6 relative rounded-2xl'>
 						<div className='relative mt-3'>
 							<div className='absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none'>
 								<em className='bi bi-search'></em>

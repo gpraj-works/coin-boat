@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ScreenWidth } from '../utilities/ScreenSize';
 
-const AuthButtons = () => {
+export const AuthButtons = () => {
 	const router = useRouter();
 	return (
 		<>
@@ -25,7 +25,7 @@ const AuthButtons = () => {
 	);
 };
 
-const AccountButtons = () => {
+export const AccountButtons = () => {
 	return (
 		<>
 			<Link
@@ -47,9 +47,8 @@ const AccountButtons = () => {
 	);
 };
 
-const NavbarItems = ({ title, classProps, linkProps }) => {
+export const NavbarItems = ({ title, classProps, linkProps }) => {
 	const NavLinks = ['/', '/explore', '/learn', '/about', '/support'];
-
 	return (
 		<li className={`mx-4 cursor-pointer hover:text-primary ${classProps}`}>
 			<Link href={`${NavLinks[linkProps]}`}>{title}</Link>
@@ -57,7 +56,7 @@ const NavbarItems = ({ title, classProps, linkProps }) => {
 	);
 };
 
-const Navbar = ({ classProps }) => {
+const Navbar = () => {
 	let access = useSelector((state) => state.authUtils.loggedIn);
 	const [loggedIn, setLoggedIn] = useState(false);
 

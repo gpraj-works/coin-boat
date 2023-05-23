@@ -1,5 +1,14 @@
 const nextConfig = {
 	reactStrictMode: true,
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'www.cryptocompare.com',
+				port: '',
+			},
+		],
+	},
 	env: {
 		CRYPTO_API_KEY: 'd80ce7a7d6msh1362a55e1f15970p142d96jsn5c43891d674b',
 		CRYPTO_API_HOST: process.env.CRYPTO_API_HOST,

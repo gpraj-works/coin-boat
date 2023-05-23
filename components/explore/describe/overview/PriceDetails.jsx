@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import { ToCurrency } from '@/components/components.utils';
 import { GetCrypto } from '@/services/crypto.api';
+import { toast } from 'react-toastify';
 
 const PriceDetails = ({ uuid }) => {
 	const Crypto = new GetCrypto();
@@ -144,6 +145,12 @@ const PriceDetails = ({ uuid }) => {
 					)}
 				</p>
 				<div>
+					<button
+						className='border px-3 dark:border-primary py-0.5 mx-1 rounded-lg outline-none'
+						onClick={() => toast.warning('Please go to dashboard!')}
+					>
+						Show Candles
+					</button>
 					<FilterChart title='1h' time='1h' />
 					<FilterChart title='1d' time='24h' />
 					<FilterChart title='1w' time='7d' />
