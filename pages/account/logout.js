@@ -5,11 +5,11 @@ import { useDispatch } from 'react-redux';
 
 const Logout = () => {
 	const router = useRouter();
-	const to = router.query.to;
+	// const to = router.query.to;
 	const dispatch = useDispatch();
 	Cookies.remove('token');
 	dispatch(updateAccess(false));
-	router.push(to);
+	router.push('/');
 };
 
 export default Logout;
