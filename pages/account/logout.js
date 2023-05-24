@@ -1,13 +1,11 @@
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const Logout = () => {
-	const router = useRouter();
-	// // const to = router.query.to;
-	// const dispatch = useDispatch();
 	Cookies.remove('token');
-	// dispatch(updateAccess(false));
-	router.push('/');
+	useEffect(() => {
+		window.location.href = '/';
+	}, []);
 };
 
 export default Logout;
