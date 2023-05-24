@@ -26,7 +26,7 @@ const PriceDetails = ({ uuid }) => {
 
 	let preparedData = [];
 
-	if (!isLoading) {
+	if (!isLoading && history) {
 		cryptoHistory.map((item, index) => {
 			// let toSplit = String(item.price).split('.');
 			// let prepared = toSplit[0] + '.' + toSplit[1].slice(0, 2);

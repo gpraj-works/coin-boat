@@ -2,6 +2,7 @@ import { RequestOtp } from '@/components/components.utils';
 import dbConnect from '@/config/dbConnect';
 import OtpTemplate from '@/components/account/EmailTemplates/OTP';
 import jwt from 'jsonwebtoken';
+import Env from '@/config/envConfig';
 // import nodemailer from 'nodemailer';
 const sgMail = require('@sendgrid/mail');
 
@@ -11,7 +12,7 @@ const verify = async (req, res) => {
 	const db = client.db('users');
 	const collection = db.collection('accounts');
 	const query = req.body;
-	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+	sgMail.setApiKey(Env.SendGrid.Key);
 
 	const OTP = RequestOtp();
 

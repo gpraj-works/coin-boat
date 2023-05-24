@@ -40,7 +40,7 @@ const ExploreStats = () => {
 
 	return (
 		<>
-			{!isLoading ? (
+			{!isLoading && cryptoStats ? (
 				<div className='flex flex-wrap justify-center py-1.5'>
 					<p className='pr-1 py-0.5 capitalize text-[13px] dark:text-slate-400'>
 						Cryptos&nbsp;:&nbsp;

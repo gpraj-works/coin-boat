@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGO_DB_CONN;
+const uri = process.env.MONGO_URI;
 const options = {
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
@@ -9,7 +9,7 @@ const options = {
 let client;
 let dbConnect;
 
-if (!process.env.MONGO_DB_CONN) {
+if (!process.env.MONGO_URI) {
 	throw new Error(
 		'Please define the MONGODB_URI environment variable inside .env.local'
 	);

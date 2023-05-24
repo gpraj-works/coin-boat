@@ -9,8 +9,7 @@ const AssetDetails = ({ defaultCurrency, symbol }) => {
 	const Crypto = new GetCrypto();
 
 	const { data, error } = Crypto.AssetBySymbol({
-		refSymbol: symbol,
-		refCurrency: defaultCurrency && defaultCurrency.symbol,
+		refSymbol: String(symbol),
 	});
 
 	const asset = data && data.Data;

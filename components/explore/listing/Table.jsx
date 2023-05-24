@@ -34,6 +34,7 @@ const Table = ({ data }) => {
 	return (
 		<>
 			{smallScreen &&
+				CoinData &&
 				CoinData.map((item, index) => (
 					<Accordion
 						spreadData={{
@@ -57,7 +58,7 @@ const Table = ({ data }) => {
 					/>
 				))}
 
-			{!smallScreen && (
+			{!smallScreen && CoinData && (
 				<>
 					<TableHeader />
 					{CoinData.map((coin, index) => (
