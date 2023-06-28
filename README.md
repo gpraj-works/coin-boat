@@ -2,7 +2,7 @@
 
 CoinBoat is a cryptocurrency listing website developed with Next.js, Redux Toolkit, and Tailwind CSS.
 
-![CoinBoat Screenshot]([https://coinboat.vercel.app/Explore%20_%20CoinBoat.png])
+![CoinBoat Screenshot](https://coinboat.vercel.app/Explore%20_%20CoinBoat.png)
 
 ## Table of Contents
 
