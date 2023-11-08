@@ -17,7 +17,7 @@ const Header = () => {
 					<p className='text-lg mb-8 font-normal text-gray-500 lg:text-xl dark:text-gray-400'>
 						Lorem Ipsum is simply dummy text of the printing and typesetting
 						industry. Lorem Ipsum has been the industry standard dummy text ever
-						since the 1500s,
+						since the 1500s.
 					</p>
 					<Link
 						href='#'

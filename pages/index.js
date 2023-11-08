@@ -10,6 +10,15 @@ const Homepage = () => {
 				<link rel='icon' href='/images/brand/favicon.ico' />
 			</Head>
 			<Header />
+			<footer className='absolute bottom-0 bg-slate-200 w-full px-3 py-1 text-sm'>
+				<div className='flex justify-between items-center'>
+					<span>coinboat.com</span>
+					<div>
+						<span className=' underline mx-2'>terms & conditions</span>
+						<span className=' underline mx-2'>privacy & policy</span>
+					</div>
+				</div>
+			</footer>
 		</>
 	);
 };

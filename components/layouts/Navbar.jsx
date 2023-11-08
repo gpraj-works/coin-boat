@@ -48,7 +48,7 @@ export const AccountButtons = () => {
 };
 
 export const NavbarItems = ({ title, classProps, linkProps }) => {
-	const NavLinks = ['/', '/explore', '/learn', '/about', '/support'];
+	const NavLinks = ['/', '/explore', '/explore', '/explore', '/explore'];
 	return (
 		<li className={`mx-4 cursor-pointer hover:text-primary ${classProps}`}>
 			<Link href={`${NavLinks[linkProps]}`}>{title}</Link>

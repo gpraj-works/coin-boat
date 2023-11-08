@@ -14,9 +14,9 @@ const watchlist = async (req, res) => {
 			const exist = await collection.findOne({
 				userId: new ObjectId(params.userId),
 			});
-			res.status(200).json({ success: true, data: exist });
+			return res.status(200).json({ success: true, data: exist });
 		} catch (error) {
-			res.status(200).json({ success: false, message: 'id not valid' });
+			return res.status(200).json({ success: false, message: 'id not valid' });
 		}
 	}
 	if (method === 'POST') {
@@ -46,9 +46,9 @@ const watchlist = async (req, res) => {
 						  }
 				);
 				if (updated.acknowledged) {
-					res.status(200).json({ success: true, data: updated });
+					return res.status(200).json({ success: true, data: updated });
 				} else {
-					res.status(400).json({ success: false, message: 'not updated' });
+					return res.status(400).json({ success: false, message: 'not updated' });
 				}
 			} else {
 				const inserted = await collection.insertOne({
@@ -59,13 +59,13 @@ const watchlist = async (req, res) => {
 					},
 				});
 				if (inserted.acknowledged) {
-					res.status(200).json({ success: true, data: inserted });
+					return res.status(200).json({ success: true, data: inserted });
 				} else {
-					res.status(400).json({ success: false, message: 'not inserted' });
+					return res.status(400).json({ success: false, message: 'not inserted' });
 				}
 			}
 		} catch (error) {
-			res.status(400).json({ success: false, message: 'not processed' });
+			return res.status(400).json({ success: false, message: 'not processed' });
 		}
 	}
 };
